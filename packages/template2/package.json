@@ -1,0 +1,37 @@
+{
+  "name": "@over-ui/template-test2",
+  "version": "1.0.0",
+  "license": "MIT",
+  "contributors": [
+    "otterp012 <otterp012@gmail.com>",
+    "lv0314 <luzverde0314@gmail.com>"
+  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "react": "^16.8 || ^17.0 || ^18.0",
+    "react-dom": "^16.8 || ^17.0 || ^18.0"
+  },
+  "scripts": {
+    "build": "yarn clean && yarn build:typings && rollup -c ../../rollup.config.mjs",
+    "watch": "rollup -c ../../rollup.config.mjs -w",
+    "build:typings": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/over-ui/unstyled/tree/main#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/over-ui/unstyled.git"
+  },
+  "bugs": {
+    "url": "https://github.com/over-ui/unstyled/issues"
+  }
+}

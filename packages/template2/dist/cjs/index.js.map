@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../../src/add.tsx"],"sourcesContent":["export const Div = () => {\n  return <div>123</div>;\n};\n"],"names":["Div","_jsx"],"mappings":";;;;AAAaA,IAAAA,GAAG,GAAG,SAANA,GAAG,GAAS;EACvB,oBAAOC,cAAA,CAAA,KAAA,EAAA;AAAA,IAAA,QAAA,EAAA,KAAA;GAAc,CAAA,CAAA;AACvB;;;;"}

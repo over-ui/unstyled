@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../../src/add.tsx"],"sourcesContent":["export const Button = () => {\n  return <button>수정</button>;\n};\n"],"names":["Button","_jsx"],"mappings":";;;;AAAaA,IAAAA,MAAM,GAAG,SAATA,MAAM,GAAS;EAC1B,oBAAOC,cAAA,CAAA,QAAA,EAAA;AAAA,IAAA,QAAA,EAAA,cAAA;GAAmB,CAAA,CAAA;AAC5B;;;;"}
