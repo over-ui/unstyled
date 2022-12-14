@@ -3,8 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonJs from "@rollup/plugin-commonjs";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 
-const extensions = ["js", "jsx", "ts", ".tsx"];
-
+const extensions = [".js", ".jsx", ".ts", ".tsx"];
 export default {
   input: "./src/index.ts",
   output: [

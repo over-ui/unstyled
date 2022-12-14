@@ -1,12 +1,10 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "playground"
-    ]
-  },
+  "workspaces": [
+    "packages/*",
+    "playground"
+  ],
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/plugin-transform-runtime": "^7.19.6",
