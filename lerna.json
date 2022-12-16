@@ -8,7 +8,7 @@
       "ignoreChanges": ["**/*.md"],
       "conventionalCommits": true,
       "amend": true,
-      "changelogPreset": "conventionalCommits"
+      "changelogPreset": "conventional-changelog-conventionalCommits"
     },
     "publish": {
       "conventionalCommits": true
