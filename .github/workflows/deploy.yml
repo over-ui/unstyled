@@ -18,19 +18,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
-      - name: Authenticate
-        run: |
-          npm config set @over-ui:registry https://registry.npmjs.org/
-          npm config set registry=https://registry.npmjs.org/
-          npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          npm whoami
+           registry-url: 'https://registry.npmjs.org'
       - name: Configure Git User
         run: |
           git config user.name "otterp012"
           git config user.email "otterp012@users.noreply.github.com"
-      - name: "version"
-        env:
-          GH_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: lerna version --no-private --yes
       - name: "publish"
         run: lerna publish --from-package --yes
