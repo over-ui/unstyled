@@ -20,7 +20,7 @@ jobs:
           node-version: "14"
       - name: Authenticate
         run: |
-          npm config set @cos-ui:registry https://registry.npmjs.org/
+          npm config set @over-ui:registry https://registry.npmjs.org/
           npm config set registry=https://registry.npmjs.org/
           npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
           npm whoami
