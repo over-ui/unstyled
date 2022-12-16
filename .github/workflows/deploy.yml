@@ -18,6 +18,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+      - name: "Test"
+        run: yarn test
       - name: "Authenticate"
         run: |
           npm config set @over-ui:registry https://registry.npmjs.org/

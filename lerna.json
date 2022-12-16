@@ -7,7 +7,6 @@
     "version": {
       "ignoreChanges": ["**/*.md", "*.test.*"],
       "conventionalCommits": true,
-      "amend": true,
       "changelogPreset": {
         "name": "conventional-changelog-conventionalcommits",
         "types": [
