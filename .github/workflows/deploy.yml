@@ -22,4 +22,4 @@ jobs:
       - name: "Version"
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: npx lerna version --no-private --no-git-tag-version --yes
+        run: lerna version --no-private --no-git-tag-version --yes
