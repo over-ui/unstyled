@@ -18,10 +18,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
-           registry-url: 'https://registry.npmjs.org'
-      - name: Configure Git User
-        run: |
-          git config user.name "otterp012"
-          git config user.email "otterp012@users.noreply.github.com"
       - name: "publish"
-        run: lerna publish --from-package --yes
+        run: lerna publish --no-private --yes
+        env: NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
