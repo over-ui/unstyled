@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: "14"
       - name: Install dependencies
-         run: yarn install
+         run: yarn
       - name: "Version"
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
