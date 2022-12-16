@@ -1,6 +1,6 @@
 {
   "name": "playground",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "dev": "yarn clean && yarn && next dev",
@@ -10,7 +10,7 @@
     "clean": "rm -rf .next && rm -rf node_modules"
   },
   "dependencies": {
-    "@over-ui/template-test": "^1.0.4",
+    "@over-ui/template-test": "^1.0.6",
     "@over-ui/template-test2": "^1.3.0",
     "next": "13.0.4",
     "react": "18.2.0",
