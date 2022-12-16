@@ -1,7 +1,6 @@
 name: Lint & Test
 on:
   pull_request:
-    types: [open]
     branches:
       - test4
       - dev
