@@ -13,10 +13,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+      - name: Install dependencies
+         run: yarn install
       - name: "Version"
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor}}@users.noreply.github.com"
-          npx lerna version --no-git-tag-version --no-private --yes
+        run: yarn L:version
