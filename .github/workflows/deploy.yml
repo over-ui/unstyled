@@ -1,8 +1,9 @@
 name: Publish
 on:
   push:
-    - de-test
-    - main
+    branches:
+      - test4
+      - main
 
 jobs:
   publish:
