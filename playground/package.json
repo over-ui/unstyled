@@ -10,11 +10,10 @@
     "clean": "rm -rf .next && rm -rf node_modules"
   },
   "dependencies": {
+    "@over-ui/template": "*",
     "next": "13.0.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "@over-ui/template-test": "*",
-    "@over-ui/template-test2": "*"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@types/node": "18.11.9",

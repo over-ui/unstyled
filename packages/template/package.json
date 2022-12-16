@@ -1,6 +1,7 @@
 {
-  "name": "@over-ui/template-test",
+  "name": "@over-ui/template",
   "version": "1.0.0",
+  "private": true,
   "license": "MIT",
   "contributors": [
     "otterp012 <otterp012@gmail.com>",
