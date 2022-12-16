@@ -34,6 +34,5 @@ jobs:
         run: npx lerna version --no-private --yes
       - name: Build
         run: yarn build
-
       - name: Publish
-        run: npx lerna publish --no-private --yes
+        run: npx lerna publish from-git --no-private --yes
