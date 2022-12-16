@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - test4
+      - test5
       - main
 
 jobs:
@@ -18,8 +19,8 @@ jobs:
         with:
           node-version: "14"
       - name: "install dependencies"
-        run: npm install
-      - name: "Publish"
+        run: yarn install
+      - name: "version"
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: lerna publish --no-private --no-git-tag-version --yes
+        run: lerna publish --no-private --yes
