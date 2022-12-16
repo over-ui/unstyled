@@ -5,8 +5,9 @@
   "npmClient": "yarn",
   "command": {
     "version": {
-      "ignoreChanges": ["**/*.md"],
+      "ignoreChanges": ["**/*.md", "*.test.*"],
       "conventionalCommits": true,
+      "amend": true,
       "changelogPreset": {
         "name": "conventional-changelog-conventionalcommits",
         "types": [
