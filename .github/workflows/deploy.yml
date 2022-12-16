@@ -13,6 +13,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+      - name: "install dependencies"
+        run: npm install
       - name: "Version"
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
