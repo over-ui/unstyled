@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/over-ui/unstyled/compare/@over-ui/template-test2@1.3.0...@over-ui/template-test2@1.3.1) (2022-12-16)
+
+### :bug: Bug Fix
+
+- template2 ([6fde80a](https://github.com/over-ui/unstyled/commit/6fde80ad892f307c1f8004ce48661b7630a4dae7))
+
 ## [1.3.0](https://github.com/over-ui/unstyled/compare/@over-ui/template-test2@1.0.1...@over-ui/template-test2@1.3.0) (2022-12-16)
 
 ### :rocket: New Features
