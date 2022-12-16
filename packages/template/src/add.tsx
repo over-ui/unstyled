@@ -1,3 +1,3 @@
 export const Button = () => {
-  return <button>수정123121231231233</button>;
+  return <button>수정사항 반영</button>;
 };
