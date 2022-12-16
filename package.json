@@ -40,7 +40,7 @@
     "playground": "lerna exec --scope playground yarn dev",
     "test": "jest",
     "prepare": "husky install",
-    "L:version": "lerna version --no-private",
-    "L:publish": "lerna publish from-git"
+    "L:version": "lerna version --no-private --no-git-tag-version",
+    "L:publish": "lerna publish --no-private"
   }
 }

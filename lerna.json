@@ -6,6 +6,7 @@
   "command": {
     "version": {
       "ignoreChanges": ["**/*.md"],
+
       "conventionalCommits": true,
       "changelogPreset": {
         "name": "conventional-changelog-conventionalcommits",
@@ -49,6 +50,7 @@
       }
     },
     "publish": {
+      "message": "chore(release): publish",
       "conventionalCommits": true
     }
   }
