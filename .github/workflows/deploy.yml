@@ -35,4 +35,4 @@ jobs:
         run: yarn build
 
       - name: Publish
-        run: npx lerna publish --no-private --yes
+        run: npx lerna publish --no-private --from-package --yes
