@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/over-ui/unstyled/compare/@over-ui/template-test2@1.3.1...@over-ui/template-test2@1.3.2) (2022-12-16)
+
+### :bug: Bug Fix
+
+- pacakgaes ([e75a81e](https://github.com/over-ui/unstyled/commit/e75a81e8fd817ff26d4fb291a45ea3b9db955620))
+
 ## [1.3.1](https://github.com/over-ui/unstyled/compare/@over-ui/template-test2@1.3.0...@over-ui/template-test2@1.3.1) (2022-12-16)
 
 ### :bug: Bug Fix
