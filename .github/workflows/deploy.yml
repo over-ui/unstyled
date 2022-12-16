@@ -18,6 +18,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+      - name: "install dependencies"
+        run: yarn install
       - name: "publish"
         run: lerna publish --no-private --yes
-        env: NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        env: ${{ secrets.NPM_TOKEN }}
