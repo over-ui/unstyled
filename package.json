@@ -39,8 +39,6 @@
     "build": "lerna run build --ignore playground",
     "playground": "lerna exec --scope playground yarn dev",
     "test": "jest",
-    "prepare": "husky install",
-    "L:version": "lerna version --no-private --no-git-tag-version --yes",
-    "L:publish": "lerna publish --no-private"
+    "prepare": "husky install"
   }
 }
