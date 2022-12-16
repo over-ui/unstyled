@@ -18,8 +18,21 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
-      - name: "install dependencies"
-        run: yarn install
-      - name: "publish"
-        run: lerna publish --no-private --yes
-        env: ${{ secrets.NPM_TOKEN }}
+      - name: Authenticate
+        run: |
+          npm config set @cos-ui:registry https://registry.npmjs.org/
+          npm config set registry=https://registry.npmjs.org/
+          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+          npm whoami
+      - name: Configure Git User
+        run: |
+          git config user.name "otterp012"
+          git config user.email "otterp012N@users.noreply.github.com"
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Publish
+        run: npx lerna publish --no-private --yes
