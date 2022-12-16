@@ -19,7 +19,7 @@ jobs:
           node-version: "14"
       - name: "install dependencies"
         run: npm install
-      - name: "Version"
+      - name: "Publish"
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: lerna version --no-private --no-git-tag-version --yes
+        run: lerna publish --no-private --no-git-tag-version --yes
