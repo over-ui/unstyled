@@ -1,6 +1,7 @@
 {
-  "name": "@over-ui/template-test",
+  "name": "@over-ui/template",
   "version": "1.0.0",
+  "private": true,
   "license": "MIT",
   "contributors": [
     "otterp012 <otterp012@gmail.com>",
@@ -20,7 +21,7 @@
   "scripts": {
     "build": "yarn clean && yarn build:typings && rollup -c ../../rollup.config.mjs",
     "watch": "rollup -c ../../rollup.config.mjs -w",
-    "build:typings": "tsc -p tsconfig.json",
+    "build:typings": "tsc -p ./tsconfig.json",
     "clean": "rm -rf dist"
   },
   "publishConfig": {
