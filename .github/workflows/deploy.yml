@@ -30,9 +30,10 @@ jobs:
           git config user.email "otterp012N@users.noreply.github.com"
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-
+      - name: Version
+        run: npx lerna version --no-private --yes
       - name: Build
         run: yarn build
 
       - name: Publish
-        run: npx lerna publish --no-private --from-package --yes
+        run: npx lerna publish --no-private --yes
