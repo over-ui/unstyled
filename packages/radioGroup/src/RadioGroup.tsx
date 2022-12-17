@@ -27,3 +27,66 @@ const useRadioGroupContext = () => {
 
 	return context;
 };
+
+/* -------------------------------------------------------------------------------------------------
+ * RadioGroup
+ * -----------------------------------------------------------------------------------------------*/
+const RADIO_GROUP_NAME = "RadioGroup";
+
+type RadioGroupElement = HTMLDivElement;
+type RadioGroupProps = {
+	name?: RadioGroupContextValue["name"];
+	required?: RadioGroupContextValue["required"];
+	disabled?: RadioGroupContextValue["disabled"];
+	orientation?: "vertical" | "horizontal";
+	loop?: RadioGroupContextValue["loop"];
+	defaultValue?: string;
+	value?: RadioGroupContextValue["value"];
+} & React.HTMLProps<HTMLDivElement>;
+
+const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>((props, forwardedRef) => {
+	const {
+		name,
+		label,
+		required = false,
+		disabled = false,
+		orientation = "vertical",
+		loop = true,
+		defaultValue,
+		onChange,
+		children,
+		...groupProps
+	} = props;
+	const [value, setValue] = React.useState<string | undefined>();
+	const ref = React.useRef<HTMLDivElement | null>(null);
+
+	React.useEffect(() => {
+		setValue(defaultValue);
+	}, []);
+
+	return (
+		<RadioGroupProvider
+			name={name}
+			required={required}
+			disabled={disabled}
+			value={value}
+			loop={loop}
+			onChange={setValue}
+		>
+			<div
+				role="radiogroup"
+				aria-required={required}
+				aria-label={label}
+				aria-orientation={orientation}
+				data-disabled={disabled ? "" : undefined}
+				style={orientation === "horizontal" ? { display: "flex" } : {}}
+				{...groupProps}
+				ref={ref}
+			>
+				{children}
+			</div>
+		</RadioGroupProvider>
+	);
+});
+
+RadioGroup.displayName = RADIO_GROUP_NAME;
