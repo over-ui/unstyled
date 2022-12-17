@@ -23,6 +23,33 @@ const useRadioContext = () => {
 };
 
 /* -------------------------------------------------------------------------------------------------
+ * RadioIndicator
+ * -----------------------------------------------------------------------------------------------*/
+const INDICATOR_NAME = "RadioIndicator";
+
+type RadioIndicatorElement = HTMLSpanElement;
+type RadioIndicatorProps = React.HTMLProps<HTMLSpanElement>;
+
+const RadioIndicator = React.forwardRef<RadioIndicatorElement, RadioIndicatorProps>((props, forwardedRef) => {
+	const context = useRadioContext();
+
+	return (
+		<>
+			{context.checked && (
+				<span
+					data-state={getState(context.checked)}
+					data-disabled={context.disabled ? "" : undefined}
+					{...props}
+					ref={forwardedRef}
+				/>
+			)}
+		</>
+	);
+});
+
+RadioIndicator.displayName = INDICATOR_NAME;
+
+/* -------------------------------------------------------------------------------------------------
  * ImplicitInput
  * -----------------------------------------------------------------------------------------------*/
 type ImplicitInputProps = {
