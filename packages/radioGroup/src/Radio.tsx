@@ -126,3 +126,6 @@ const ImplicitInput = (props: ImplicitInputProps) => {
 function getState(checked: Boolean) {
 	return checked ? "checked" : "unchecked";
 }
+
+export { Radio, RadioIndicator };
+export type { RadioProps };
