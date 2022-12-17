@@ -23,6 +23,51 @@ const useRadioContext = () => {
 };
 
 /* -------------------------------------------------------------------------------------------------
+ * Radio
+ * -----------------------------------------------------------------------------------------------*/
+type RadioElement = HTMLButtonElement;
+type RadioProps = {
+	checked?: boolean;
+	required?: boolean;
+	onCheck?(): void;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+const Radio = React.forwardRef<RadioElement, RadioProps>((props, forwardedRef) => {
+	const { children, checked = true, disabled, required, value = "on", onCheck, ...radioProps } = props;
+
+	return (
+		<RadioProvider checked={checked} disabled={disabled}>
+			<button
+				type="button"
+				role="radio"
+				aria-checked={checked}
+				disabled={disabled}
+				dats-state={getState(checked)}
+				value={value}
+				tabIndex={checked ? 0 : -1}
+				ref={forwardedRef}
+				onClick={() => {
+					if (!checked) onCheck?.();
+				}}
+				{...radioProps}
+			>
+				{children}
+			</button>
+			<ImplicitInput
+				value={value}
+				checked={checked}
+				disabled={disabled}
+				style={{
+					transform: "translateX(-100%)",
+				}}
+			/>
+		</RadioProvider>
+	);
+});
+
+Radio.displayName = RADIO_NAME;
+
+/* -------------------------------------------------------------------------------------------------
  * RadioIndicator
  * -----------------------------------------------------------------------------------------------*/
 const INDICATOR_NAME = "RadioIndicator";
