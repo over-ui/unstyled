@@ -166,3 +166,35 @@ const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemPro
 });
 
 RadioGroupItem.displayName = ITEM_NAME;
+
+/* -------------------------------------------------------------------------------------------------
+ * RadioGroupIndicator
+ * -----------------------------------------------------------------------------------------------*/
+const INDICATOR_NAME = "RadioGroupIndicator";
+
+type RadioGroupIndicatorElement = HTMLSpanElement;
+type RadioGroupIndicatorProps = React.HTMLProps<HTMLSpanElement>;
+
+const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGroupIndicatorProps>(
+	(props, forwardedRef) => {
+		return <RadioIndicator {...props} ref={forwardedRef} />;
+	}
+);
+
+RadioGroupIndicator.displayName = INDICATOR_NAME;
+
+//
+
+const Root = RadioGroup;
+const Item = RadioGroupItem;
+const Indicator = RadioGroupIndicator;
+
+export {
+	RadioGroup,
+	RadioGroupItem,
+	RadioGroupIndicator,
+	//
+	Root,
+	Item,
+	Indicator,
+};
