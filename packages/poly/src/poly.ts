@@ -14,3 +14,14 @@ export type Ref<C extends React.ElementType> =
 export type PropsWithRef<C extends React.ElementType, P = {}> = Props<C, P> & {
   ref?: Ref<C>;
 };
+
+type DisplayName = {
+  displayName?: string;
+};
+
+export type Component<C extends React.ElementType, _Props> = (<
+  T extends React.ElementType = C,
+>(
+  props: PropsWithRef<T, _Props>,
+) => React.ReactElement | null) &
+  DisplayName;
