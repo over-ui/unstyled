@@ -90,3 +90,79 @@ const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>((props, 
 });
 
 RadioGroup.displayName = RADIO_GROUP_NAME;
+
+/* -------------------------------------------------------------------------------------------------
+ * RadioGroupItem
+ * -----------------------------------------------------------------------------------------------*/
+const ITEM_NAME = "RadioGroupItem";
+
+type RadioGroupItemElement = HTMLButtonElement;
+type RadioGroupItemProps = RadioProps & {
+	value: string;
+};
+
+const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemProps>((props, forwardedRef) => {
+	const { disabled, ...itemProps } = props;
+	const context = useRadioGroupContext();
+	const checked = context.value === itemProps.value;
+	const ref = React.useRef<HTMLButtonElement | null>(null);
+
+	const next = (ref.current?.parentNode as HTMLElement)?.nextElementSibling
+		?.children as HTMLCollectionOf<HTMLButtonElement>;
+	const prev = (ref.current?.parentNode as HTMLElement)?.previousElementSibling
+		?.children as HTMLCollectionOf<HTMLButtonElement>;
+
+	const findAndFocusButton = (parent: HTMLCollectionOf<HTMLElement>) => {
+		for (let i = 0; i < parent.length; i++) {
+			const child = parent[i] as HTMLButtonElement;
+			if (child.type !== "button") continue;
+			context.onChange?.(child.value);
+			child.focus();
+		}
+	};
+
+	const handleArrowKey = (event: React.KeyboardEvent) => {
+		if (!ref) return;
+
+		if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+			if (prev) {
+				findAndFocusButton(prev);
+			} else {
+				if (!context.loop) return;
+				const last = (ref.current?.parentNode as HTMLElement).parentNode?.lastElementChild
+					?.children as HTMLCollectionOf<HTMLElement>;
+				findAndFocusButton(last);
+			}
+		}
+
+		if (event.key === "ArrowDown" || event.key === "ArrowRight")
+			if (next) {
+				findAndFocusButton(next);
+			} else {
+				if (!context.loop) return;
+				const first = (ref.current?.parentNode as HTMLElement).parentNode?.firstElementChild
+					?.children as HTMLCollectionOf<HTMLElement>;
+				findAndFocusButton(first);
+			}
+	};
+
+	return (
+		<Radio
+			disabled={disabled}
+			required={context.required}
+			checked={checked}
+			{...itemProps}
+			name={context.name}
+			ref={ref}
+			onCheck={() => {
+				context.onChange?.(itemProps.value);
+			}}
+			onKeyDown={(event: React.KeyboardEvent) => {
+				if (event.key === "Enter") event.preventDefault();
+				handleArrowKey(event);
+			}}
+		/>
+	);
+});
+
+RadioGroupItem.displayName = ITEM_NAME;
