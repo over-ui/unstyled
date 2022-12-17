@@ -21,3 +21,36 @@ const useRadioContext = () => {
 
 	return context;
 };
+
+/* -------------------------------------------------------------------------------------------------
+ * ImplicitInput
+ * -----------------------------------------------------------------------------------------------*/
+type ImplicitInputProps = {
+	checked: boolean;
+	disabled?: boolean;
+} & React.HTMLProps<HTMLInputElement>;
+
+const ImplicitInput = (props: ImplicitInputProps) => {
+	const { checked, ...inputProps } = props;
+
+	return (
+		<input
+			type="radio"
+			aria-hidden
+			defaultChecked={checked}
+			{...inputProps}
+			tabIndex={-1}
+			style={{
+				...props.style,
+				position: "absolute",
+				pointerEvents: "none",
+				opacity: 0,
+				margin: 0,
+			}}
+		/>
+	);
+};
+
+function getState(checked: Boolean) {
+	return checked ? "checked" : "unchecked";
+}
