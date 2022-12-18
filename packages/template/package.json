@@ -22,7 +22,8 @@
     "build": "yarn clean && yarn build:typings && rollup -c ../../rollup.config.mjs",
     "watch": "rollup -c ../../rollup.config.mjs -w",
     "build:typings": "tsc -p ./tsconfig.json",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "lint": "eslint ./src"
   },
   "publishConfig": {
     "access": "public"
