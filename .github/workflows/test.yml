@@ -7,15 +7,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout"
+      - name: 'Checkout'
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: "Use NodeJS 14"
+      - name: 'Use NodeJS 14'
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
-      - name: "Install Dependencies"
+          node-version: '14'
+      - name: 'Install Dependencies'
         run: yarn install
-      - name: "Test"
+      - name: 'lint'
+        run: yarn lint
+      - name: 'Test'
         run: yarn test
