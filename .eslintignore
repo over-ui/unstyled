@@ -1,0 +1,4 @@
+node_moudles
+*.config.*
+playground/
+dist/
