@@ -18,10 +18,10 @@ const Portal: Poly.Component<typeof PORTAL_TAG, PortalProps> = React.forwardRef(
     forwardedRef: Poly.Ref<T>
   ) => {
     const { as, container = globalThis?.document?.body, ...portalProps } = props;
-    const Component = as || PORTAL_TAG;
+    const Tag = as || PORTAL_TAG;
 
     return container
-      ? ReactDOM.createPortal(<Component {...portalProps} ref={forwardedRef} />, container)
+      ? ReactDOM.createPortal(<Tag {...portalProps} ref={forwardedRef} />, container)
       : null;
   }
 );
