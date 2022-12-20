@@ -1,23 +1,31 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
+import { Poly } from '@over-ui/core';
 
 /* -------------------------------------------------------------------------------------------------
  * Portal
  * -----------------------------------------------------------------------------------------------*/
-const PORTAL_NAME = 'Portal';
-
-type PortalElement = HTMLDivElement;
 type PortalProps = {
   container?: HTMLElement | null;
   children?: React.ReactNode;
 };
 
-export const Portal = React.forwardRef<PortalElement, PortalProps>((props, forwardedRef) => {
-  const { container = globalThis?.document?.body, ...portalProps } = props;
+const PORTAL_TAG = 'div';
 
-  return container
-    ? ReactDOM.createPortal(<div {...portalProps} ref={forwardedRef} />, container)
-    : null;
-});
+const Portal: Poly.Component<typeof PORTAL_TAG, PortalProps> = React.forwardRef(
+  <T extends React.ElementType = typeof PORTAL_TAG>(
+    props: Poly.Props<T, PortalProps>,
+    forwardedRef: Poly.Ref<T>
+  ) => {
+    const { as, container = globalThis?.document?.body, ...portalProps } = props;
+    const Component = as || PORTAL_TAG;
 
-Portal.displayName = PORTAL_NAME;
+    return container
+      ? ReactDOM.createPortal(<Component {...portalProps} ref={forwardedRef} />, container)
+      : null;
+  }
+);
+
+Portal.displayName = 'PORTAL';
+
+export { Portal };
