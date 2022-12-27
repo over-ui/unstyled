@@ -78,3 +78,44 @@ function focus(element?: FocusableTarget | null, { select = false } = {}) {
     }
   }
 }
+
+/* -------------------------------------------------------------------------------------------------
+ * FocusTrapLayerStack
+ * -----------------------------------------------------------------------------------------------*/
+type focusScope = { paused: boolean; pause(): void; resume(): void };
+
+const focusTrapLayerStack = createFocusTrapLayerStack();
+
+function createFocusTrapLayerStack() {
+  let stack: focusScope[] = [];
+
+  return {
+    add(layer: focusScope) {
+      // 스택이기 때문에 가장 나중에 쌓인 layer가 활성화되어있음
+      const activeFocusScope = stack.at(-1);
+      // 인자로 들어온 스코프와 스택 맨 위의 스코프가 다르면, 활성화되어었는 스코프를 중지시키고
+      // 인자로 들어온 스코프를 스코프 스택 맨 위에 넣음
+      if (layer !== activeFocusScope) {
+        activeFocusScope?.pause();
+      }
+
+      stack = arrayWithoutItem(stack, layer);
+      stack.push(layer);
+    },
+
+    remove(layer: focusScope) {
+      stack = arrayWithoutItem(stack, layer);
+      stack.at(-1)?.resume();
+    },
+  };
+}
+
+function arrayWithoutItem<T>(array: T[], item: T) {
+  let copiedArr = [...array];
+  const index = copiedArr.indexOf(item);
+  if (index !== -1) {
+    copiedArr = copiedArr.filter((node) => node !== item);
+  }
+
+  return copiedArr;
+}
