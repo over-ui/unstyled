@@ -104,6 +104,42 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         };
       }, [document, node]);
 
+      /* keyDown handler */
+      const handleEscapeKeyDown = (event: KeyboardEvent) => {
+        if (!node) return;
+        if (event.key !== 'Escape') return;
+
+        const layers = Array.from(context.layers);
+        const curIndex = node ? layers.indexOf(node) : -1;
+        const isHighestLayer = curIndex === context.layers.size - 1;
+
+        if (!isHighestLayer) return;
+
+        onEscapeKeyDown?.(event);
+
+        if (!event.defaultPrevented) {
+          event.preventDefault();
+          onDismiss?.();
+        }
+      };
+
+      React.useEffect(() => {
+        document.addEventListener('keydown', handleEscapeKeyDown);
+        return () => {
+          document.removeEventListener('keydown', handleEscapeKeyDown);
+        };
+      }, [document, node]);
+
+      React.useEffect(() => {
+        if (!node) return;
+        context.layers.add(node);
+
+        return () => {
+          if (!node) return;
+          context.layers.delete(node);
+        };
+      }, [node, document, context]);
+
       React.useEffect(() => {
         if (!node) return;
         context.layers.add(node);
