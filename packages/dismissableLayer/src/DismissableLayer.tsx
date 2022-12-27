@@ -50,6 +50,32 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         setNode(dismissableLayerRef.current);
       }, []);
 
+      /* pointerdown handler */
+      const handlePointerDownOutside = (event: PointerEvent) => {
+        if (!node) return;
+
+        const target = event.target as HTMLElement;
+
+        const layers = Array.from(context.layers);
+        const curIndex = node ? layers.indexOf(node) : -1;
+        const isHighestLayer = curIndex === context.layers.size - 1;
+
+        //클릭한 target이 node 안의 엘리먼트인지 판단
+        const isPointerDownOnBranch = dismissableLayerRef.current?.contains(target);
+        if (!isHighestLayer || isPointerDownOnBranch || !disableOutsidePointerEvents) return;
+
+        onPointerDownOutside?.(event);
+        onInteractOutside?.(event);
+        if (!event.defaultPrevented) onDismiss?.();
+      };
+
+      React.useEffect(() => {
+        document.addEventListener('pointerdown', handlePointerDownOutside);
+        return () => {
+          document.removeEventListener('pointerdown', handlePointerDownOutside);
+        };
+      }, [document, node]);
+
       React.useEffect(() => {
         if (!node) return;
         context.layers.add(node);
