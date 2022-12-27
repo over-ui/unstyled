@@ -2,6 +2,131 @@ import * as React from 'react';
 import { Poly } from '@over-ui/core';
 
 /* -------------------------------------------------------------------------------------------------
+ * FocusScope
+ * -----------------------------------------------------------------------------------------------*/
+type FocusTrapLayerProps = {
+  children?: React.ReactNode;
+  loop?: boolean;
+  trapped?: boolean;
+};
+const FOCUS_TRAP_LAYER_TAG = 'div';
+
+const FocusTrapLayer: Poly.Component<typeof FOCUS_TRAP_LAYER_TAG, FocusTrapLayerProps> =
+  React.forwardRef(
+    <T extends React.ElementType = typeof FOCUS_TRAP_LAYER_TAG>(
+      props: Poly.Props<T, FocusTrapLayerProps>,
+      forwardedRef: Poly.Ref<T>
+    ) => {
+      const { as, loop = false, trapped = true, ...FocusTrapProps } = props;
+      const Tag = as || FOCUS_TRAP_LAYER_TAG;
+      const [container, setContainer] = React.useState<HTMLElement | null>(null);
+      const lastFocusedElementRef = React.useRef<HTMLElement | null>(null);
+      const focusTrapRef = React.useRef<HTMLDivElement | null>(null);
+      const document = globalThis?.document;
+
+      const focusScope = React.useRef({
+        paused: false,
+        pause() {
+          this.paused = true;
+        },
+        resume() {
+          this.paused = false;
+        },
+      }).current;
+
+      React.useEffect(() => {
+        setContainer(focusTrapRef.current);
+      }, []);
+
+      /* focusin, focusout handler */
+      const handleFocusIn = (event: FocusEvent) => {
+        if (trapped) {
+          if (focusScope.paused || !container) return;
+          const target = event.target as HTMLElement | null;
+          //trapped인데 포커스가 밖으로 나가려고 하는 경우
+          //container 안의 엘리먼트라면, 정상적으로 포커스 이동 시키고 lastFocusedElementRef 갱신
+          if (container.contains(target)) {
+            lastFocusedElementRef.current = target;
+          } else {
+            //container 밖의 엘리먼트라면,lastFocusedElementRef를 포커스해서 포커스가 밖으로 못나가도록 가둠
+            focus(lastFocusedElementRef.current, { select: true });
+          }
+        }
+      };
+
+      React.useEffect(() => {
+        document.addEventListener('focusin', handleFocusIn);
+
+        return () => {
+          document.removeEventListener('focusin', handleFocusIn);
+        };
+      }, [trapped, container, focusScope.paused]);
+
+      /* keydown handler */
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (!loop && !trapped) return;
+        if (focusScope.paused) return;
+
+        //metaKey는 mac의 command키, windows의 windows키
+        const isTabKey = event.key === 'Tab' && !event.altKey && !event.ctrlKey && !event.metaKey;
+        const focusedElement = document.activeElement as HTMLElement | null;
+
+        if (isTabKey && focusedElement) {
+          if (!container) return;
+          const [first, last] = getFocusableEdges(container);
+          const hasFocusableEdges = first && last;
+
+          //포커스 할 수 있는 엘리먼트가 컨테이너 그 자체만 있을 경우 포커스가 안일어나도록
+          if (!hasFocusableEdges && focusedElement === container) {
+            event.preventDefault();
+          }
+          if (hasFocusableEdges) {
+            //마지막 요소에 포커스 된 상태로 탭을 누른 경우
+            if (!event.shiftKey && focusedElement === last) {
+              event.preventDefault();
+              if (loop) focus(first, { select: true });
+
+              //첫번째 요소에 포커스 된 상태로 쉬프트+탭을 누른 경우
+            } else if (event.shiftKey && focusedElement === first) {
+              event.preventDefault();
+              if (loop) focus(last, { select: true });
+            }
+          }
+        }
+      };
+
+      React.useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+          document.removeEventListener('keydown', handleKeyDown);
+        };
+      }, [loop, trapped, focusScope.paused, container]);
+
+      React.useEffect(() => {
+        if (container) {
+          focusTrapLayerStack.add(focusScope);
+          const previouslyFocusedElement = document.activeElement as HTMLElement | null;
+          const hasFocusedElement = container.contains(previouslyFocusedElement);
+
+          if (!hasFocusedElement) {
+            focusFirst(getFocusableElements(container), container, { select: true });
+          }
+          return () => {
+            focus(previouslyFocusedElement ?? document.body, { select: true });
+
+            focusTrapLayerStack.remove(focusScope);
+          };
+        }
+      }, [container]);
+
+      return <Tag ref={focusTrapRef} tabIndex={-1} {...FocusTrapProps} />;
+    }
+  );
+
+FocusTrapLayer.displayName = 'FOCUS_TRAP_LAYER';
+
+/* -------------------------------------------------------------------------------------------------
  * Utils
  * -----------------------------------------------------------------------------------------------*/
 //포커스 가능한 엘리먼트들을 찾는 메서드
@@ -80,7 +205,7 @@ function focus(element?: FocusableTarget | null, { select = false } = {}) {
 }
 
 /* -------------------------------------------------------------------------------------------------
- * FocusTrapLayerStack
+ * FocusTrapLayerStack stack
  * -----------------------------------------------------------------------------------------------*/
 type focusScope = { paused: boolean; pause(): void; resume(): void };
 
@@ -119,3 +244,12 @@ function arrayWithoutItem<T>(array: T[], item: T) {
 
   return copiedArr;
 }
+
+const Root = FocusTrapLayer;
+
+export {
+  FocusTrapLayer,
+  //
+  Root,
+};
+export type { FocusTrapLayerProps };
