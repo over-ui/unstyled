@@ -76,6 +76,34 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         };
       }, [document, node]);
 
+      /* focusin handler */
+      const handleFocusOutside = (event: FocusEvent) => {
+        if (!node) return;
+
+        const target = event.target as HTMLElement;
+
+        const layers = Array.from(context.layers);
+        const curIndex = node ? layers.indexOf(node) : -1;
+        const isHighestLayer = curIndex === context.layers.size - 1;
+
+        //포커스가 이동 된 target이 node 안의 엘리먼트인지 판단
+        const isFocusedOnBranch =
+          dismissableLayerRef.current?.contains(target) ||
+          dismissableLayerRef.current?.parentElement?.contains(target);
+
+        if (!isHighestLayer || isFocusedOnBranch) return;
+        onFocusOutside?.(event);
+        onInteractOutside?.(event);
+        if (!event.defaultPrevented) onDismiss?.();
+      };
+
+      React.useEffect(() => {
+        document.addEventListener('focusin', handleFocusOutside);
+        return () => {
+          document.removeEventListener('focusin', handleFocusOutside);
+        };
+      }, [document, node]);
+
       React.useEffect(() => {
         if (!node) return;
         context.layers.add(node);
