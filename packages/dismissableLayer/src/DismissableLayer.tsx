@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Poly } from '@over-ui/core';
+import { Poly, useSafeContext } from '@over-ui/core';
 
 /* -------------------------------------------------------------------------------------------------
  * DismissableLayer
@@ -41,7 +41,7 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         ...layerProps
       } = props;
       const Tag = as || DISMISSABLE_LAYER_TAG;
-      const context = React.useContext(DismissableLayerContext);
+      const context = useSafeContext(DismissableLayerContext, 'DismissableLayer');
       const dismissableLayerRef = React.useRef<HTMLDivElement | null>(null);
       const [node, setNode] = React.useState<HTMLDivElement | null>(null);
       const document = globalThis?.document;
