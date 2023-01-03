@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Poly, useSafeContext } from '@over-ui/core';
+import { mergeRefs } from '@over-ui/merge-refs';
 
 /* -------------------------------------------------------------------------------------------------
  * DismissableLayer
@@ -18,8 +19,8 @@ type DismissableLayerProps = {
 const DISMISSABLE_LAYER_TAG = 'div';
 
 const DismissableLayerContext = React.createContext({
-  //DismissableLayer가 생성되면 layers에 넣고
-  //해당 layer가 최상위에 위치한 layer인지 판단하고, 최상위 layer가 아닐 경우 return
+  //DismissableLayer가 생성되면 layers에 add
+  //layer가 여러겹일 경우, 해당 layer가 최상위에 위치한 layer인지 판단하고, 최상위 layer가 아닐 경우 return
   layers: new Set<HTMLDivElement>(),
 });
 
@@ -60,7 +61,6 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         const curIndex = node ? layers.indexOf(node) : -1;
         const isHighestLayer = curIndex === context.layers.size - 1;
 
-        //클릭한 target이 node 안의 엘리먼트인지 판단
         const isPointerDownOnBranch = dismissableLayerRef.current?.contains(target);
         if (!isHighestLayer || isPointerDownOnBranch || !disableOutsidePointerEvents) return;
 
@@ -86,12 +86,12 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         const curIndex = node ? layers.indexOf(node) : -1;
         const isHighestLayer = curIndex === context.layers.size - 1;
 
-        //포커스가 이동 된 target이 node 안의 엘리먼트인지 판단
         const isFocusedOnBranch =
           dismissableLayerRef.current?.contains(target) ||
           dismissableLayerRef.current?.parentElement?.contains(target);
 
         if (!isHighestLayer || isFocusedOnBranch) return;
+
         onFocusOutside?.(event);
         onInteractOutside?.(event);
         if (!event.defaultPrevented) onDismiss?.();
@@ -140,18 +140,8 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         };
       }, [node, document, context]);
 
-      React.useEffect(() => {
-        if (!node) return;
-        context.layers.add(node);
-
-        return () => {
-          if (!node) return;
-          context.layers.delete(node);
-        };
-      }, [node, document, context]);
-
       return (
-        <Tag ref={dismissableLayerRef} {...layerProps}>
+        <Tag ref={mergeRefs([dismissableLayerRef, forwardedRef])} {...layerProps}>
           {children}
         </Tag>
       );

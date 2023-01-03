@@ -26,7 +26,8 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
-    "@over-ui/core": "*"
+    "@over-ui/core": "*",
+    "@over-ui/merge-refs": "*"
   },
   "publishConfig": {
     "access": "public"
