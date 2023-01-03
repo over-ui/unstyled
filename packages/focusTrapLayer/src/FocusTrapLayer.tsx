@@ -43,12 +43,9 @@ const FocusTrapLayer: Poly.Component<typeof FOCUS_TRAP_LAYER_TAG, FocusTrapLayer
         if (trapped) {
           if (focusScope.paused || !container) return;
           const target = event.target as HTMLElement | null;
-          //trapped인데 포커스가 밖으로 나가려고 하는 경우
-          //container 안의 엘리먼트라면, 정상적으로 포커스 이동 시키고 lastFocusedElementRef 갱신
           if (container.contains(target)) {
             lastFocusedElementRef.current = target;
           } else {
-            //container 밖의 엘리먼트라면,lastFocusedElementRef를 포커스해서 포커스가 밖으로 못나가도록 가둠
             focus(lastFocusedElementRef.current, { select: true });
           }
         }
@@ -67,7 +64,6 @@ const FocusTrapLayer: Poly.Component<typeof FOCUS_TRAP_LAYER_TAG, FocusTrapLayer
         if (!loop && !trapped) return;
         if (focusScope.paused) return;
 
-        //metaKey는 mac의 command키, windows의 windows키
         const isTabKey = event.key === 'Tab' && !event.altKey && !event.ctrlKey && !event.metaKey;
         const focusedElement = document.activeElement as HTMLElement | null;
 
@@ -76,17 +72,13 @@ const FocusTrapLayer: Poly.Component<typeof FOCUS_TRAP_LAYER_TAG, FocusTrapLayer
           const [first, last] = getFocusableEdges(container);
           const hasFocusableEdges = first && last;
 
-          //포커스 할 수 있는 엘리먼트가 컨테이너 그 자체만 있을 경우 포커스가 안일어나도록
           if (!hasFocusableEdges && focusedElement === container) {
             event.preventDefault();
           }
           if (hasFocusableEdges) {
-            //마지막 요소에 포커스 된 상태로 탭을 누른 경우
             if (!event.shiftKey && focusedElement === last) {
               event.preventDefault();
               if (loop) focus(first, { select: true });
-
-              //첫번째 요소에 포커스 된 상태로 쉬프트+탭을 누른 경우
             } else if (event.shiftKey && focusedElement === first) {
               event.preventDefault();
               if (loop) focus(last, { select: true });
@@ -129,10 +121,9 @@ FocusTrapLayer.displayName = 'FOCUS_TRAP_LAYER';
 /* -------------------------------------------------------------------------------------------------
  * Utils
  * -----------------------------------------------------------------------------------------------*/
-//포커스 가능한 엘리먼트들을 찾는 메서드
 function getFocusableElements(container: HTMLElement) {
   const nodes: HTMLElement[] = [];
-  // TreeWalker를 사용해서 트리를 탐색
+  // TreeWalker를 사용하여 트리를 탐색
   // createTreeWalker(root, whatToShow, filter), return TreeWalker object
   // https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker
   const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, {
@@ -167,13 +158,13 @@ function focusFirst(eleements: HTMLElement[], container: HTMLElement, { select =
 function isHidden(node: HTMLElement, upTo: HTMLElement) {
   //인자로 받은 요소의 모든 CSS 속성값을 담은 객체를 반환
   //https://developer.mozilla.org/ko/docs/Web/API/Window/getComputedStyle
-  if (getComputedStyle(node).visibility === 'hidden') return true;
+  if (window.getComputedStyle(node).visibility === 'hidden') return true;
 
   while (node) {
     // 해당 노드는 visible이지만, container level에서 invisible일 수 있기 때문에
     // container level까지 타고 올라가면서 검사
     if (upTo !== undefined && node === upTo) return false;
-    if (getComputedStyle(node).display === 'none') return true;
+    if (window.getComputedStyle(node).display === 'none') return true;
     node = node.parentElement as HTMLElement;
   }
 
@@ -188,7 +179,6 @@ function getFirstVisibleElement(elements: HTMLElement[], container: HTMLElement)
 
 type FocusableTarget = HTMLElement | { focus(): void };
 
-// selectable이면 focus해줄 때 select도 같이 해주기 위해서
 function isSelectableInput(element: any): element is FocusableTarget & { select: () => void } {
   return element instanceof HTMLInputElement && 'select' in element;
 }
@@ -216,10 +206,7 @@ function createFocusTrapLayerStack() {
 
   return {
     add(layer: focusScope) {
-      // 스택이기 때문에 가장 나중에 쌓인 layer가 활성화되어있음
       const activeFocusScope = stack.at(-1);
-      // 인자로 들어온 스코프와 스택 맨 위의 스코프가 다르면, 활성화되어었는 스코프를 중지시키고
-      // 인자로 들어온 스코프를 스코프 스택 맨 위에 넣음
       if (layer !== activeFocusScope) {
         activeFocusScope?.pause();
       }
