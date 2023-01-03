@@ -5,7 +5,7 @@
 
 ## Usage
 
-```
+```jsx
 const Toggle: Poly.Component<typeof DEFAULT_TOGGLE, ToggleProps> =
   React.forwardRef(
     <T extends React.ElementType = typeof DEFAULT_TOGGLE>(
@@ -39,24 +39,20 @@ const Toggle: Poly.Component<typeof DEFAULT_TOGGLE, ToggleProps> =
 
 이를 통해, 다음과 같이 이용할 수 있습니다.
 
-```
+```jsx
 function Home() {
   const [state, setState] = useState(false);
   return (
     <>
-      <Toggle
-        pressed={state}
-        onPressedChange={(pressed) => setState(pressed)}
-      />
+      <Toggle pressed={state} onPressedChange={(pressed) => setState(pressed)} />
     </>
   );
 }
-
 ```
 
 - useControlled의 value, onValueChange를 이용할 경우 외부의 상태를 이용할 수 있습니다.
 
-```
+```jsx
 function Home() {
   return (
     <>
