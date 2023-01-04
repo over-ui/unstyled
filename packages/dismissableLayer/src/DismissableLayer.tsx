@@ -20,7 +20,7 @@ const DISMISSABLE_LAYER_TAG = 'div';
 
 const DismissableLayerContext = React.createContext({
   //DismissableLayer가 생성되면 layers에 add
-  //layer가 여러겹일 경우, 해당 layer가 최상위에 위치한 layer인지 판단하고, 최상위 layer가 아닐 경우 return
+  //해당 layer가 최상위에 위치한 layer인지 판단하고, 최상위 layer가 아닐 경우 return
   layers: new Set<HTMLDivElement>(),
 });
 
@@ -43,13 +43,9 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
       } = props;
       const Tag = as || DISMISSABLE_LAYER_TAG;
       const context = useSafeContext(DismissableLayerContext, 'DismissableLayer');
-      const dismissableLayerRef = React.useRef<HTMLDivElement | null>(null);
       const [node, setNode] = React.useState<HTMLDivElement | null>(null);
+      const mergedRef = mergeRefs([(node: HTMLDivElement | null) => setNode(node), forwardedRef]);
       const document = globalThis?.document;
-
-      React.useEffect(() => {
-        setNode(dismissableLayerRef.current);
-      }, []);
 
       /* pointerdown handler */
       const handlePointerDownOutside = (event: PointerEvent) => {
@@ -61,7 +57,7 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         const curIndex = node ? layers.indexOf(node) : -1;
         const isHighestLayer = curIndex === context.layers.size - 1;
 
-        const isPointerDownOnBranch = dismissableLayerRef.current?.contains(target);
+        const isPointerDownOnBranch = node.contains(target);
         if (!isHighestLayer || isPointerDownOnBranch || !disableOutsidePointerEvents) return;
 
         onPointerDownOutside?.(event);
@@ -86,9 +82,7 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
         const curIndex = node ? layers.indexOf(node) : -1;
         const isHighestLayer = curIndex === context.layers.size - 1;
 
-        const isFocusedOnBranch =
-          dismissableLayerRef.current?.contains(target) ||
-          dismissableLayerRef.current?.parentElement?.contains(target);
+        const isFocusedOnBranch = node.contains(target) || node.parentElement?.contains(target);
 
         if (!isHighestLayer || isFocusedOnBranch) return;
 
@@ -141,7 +135,7 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
       }, [node, document, context]);
 
       return (
-        <Tag ref={mergeRefs([dismissableLayerRef, forwardedRef])} {...layerProps}>
+        <Tag ref={mergedRef} {...layerProps}>
           {children}
         </Tag>
       );
