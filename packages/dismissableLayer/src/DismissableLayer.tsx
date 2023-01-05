@@ -84,7 +84,7 @@ const DismissableLayer: Poly.Component<typeof DISMISSABLE_LAYER_TAG, Dismissable
 
         const isFocusedOnBranch = node.contains(target) || node.parentElement?.contains(target);
 
-        if (!isHighestLayer || isFocusedOnBranch) return;
+        if (!isHighestLayer || isFocusedOnBranch || !disableOutsidePointerEvents) return;
 
         onFocusOutside?.(event);
         onInteractOutside?.(event);
