@@ -5,7 +5,7 @@
   "npmClient": "yarn",
   "command": {
     "version": {
-      "ignoreChanges": ["**/*.md", "packages/playground/**"],
+      "ignoreChanges": ["**/*.md", "playground/**", "*.test.tsx", "*.stories.tsx", "*.stories.mdx"],
       "message": "chore(release): publish",
       "conventionalCommits": true,
       "changelogPreset": {
