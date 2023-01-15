@@ -1,1 +1,198 @@
-## 버튼
+import { CodeSandBox } from './Dialog.stories.tsx';
+
+# Dialog
+
+일반적인 모달의 역할을 하는 컴포넌트 입니다. 현재 열려있는 주 창(primary window)이나 또 다른 Dialog 창을 비활성화시키고, 그 위로 겹쳐져 그려집니다.
+
+<CodeSandBox />
+<br />
+<br />
+
+## Installation
+
+```
+npm install @over-ui/dialog
+```
+
+## Anatomy
+
+```tsx
+import * as Dialog from '@over-ui/dialog';
+
+export default () => (
+  <Dialog.Root>
+    <Dialog.Trigger />
+    <Dialog.Portal>
+      <Dialog.Overlay />
+      <Dialog.Content>
+        <Dialog.Title />
+        <Dialog.Description />
+        <Dialog.Close />
+      </Dialog.Content>
+    </Dialog.Portal>
+  </Dialog.Root>
+);
+```
+
+## API Reference
+
+<br />
+
+### Root
+
+Dialog의 모든 부분을 포함합니다.
+
+| Prop           | Type       | Default | Description                                                                                                                     |
+| :------------- | :--------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `defaultOpen`  | `boolean`  | -       | dialog가 처음 렌더링 될 때 open 상태입니다. `open` 상태를 control 하지 않아도 될 때 사용하세요.                                 |
+| `open`         | `boolean`  | -       | dialog의 controlled open state입니다. 사용자가 지정한 상태를 전달할 수 있고, `onOpenChange`와 같이 사용되어야 합니다.           |
+| `onOpenChange` | `function` | -       | dialog의 open 상태가 바뀌었을 때 실행되는 이벤트 핸들러입니다.                                                                  |
+| `modal`        | `boolean`  | `true`  | dialog의 모달 여부입니다. true일 경우 일반적인 모달 역할을 하며, false일 경우 사용자의 행동을 방해하지 않는 non-modal이 됩니다. |
+| `id`           | `boolean`  | -       |
+
+### Trigger
+
+Dialog를 여는 버튼입니다.
+
+| Data Attribute | Values           |
+| :------------- | :--------------- |
+| `[data-state]` | `"open" "close"` |
+
+### Portal
+
+사용할 경우 포탈을 생성하여 Overlay와 Content 부분을 `body`에 렌더링합니다.
+
+| Prop        | Type          | Default       | Description                               |
+| :---------- | :------------ | ------------- | ----------------------------------------- |
+| `container` | `HTMLElement` | document.body | 포탈을 열 컨테이너 엘리먼트를 지정합니다. |
+
+### Overlay
+
+Dialog가 열려있을 때 화면의 비활성 부분을 덮는 층입니다.
+
+| Data Attribute | Values           |
+| :------------- | :--------------- |
+| `[data-state]` | `"open" "close"` |
+
+### Content
+
+Dialog가 열렸을 때 렌더링 될 content를 포함합니다.
+
+| Prop                   | Type       | Default | Description                                                                                                                                                |
+| :--------------------- | :--------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onEscapeKeyDown`      | `function` | -       | ESC 키가 눌렸을 때 실행되는 이벤트 핸들러이며, event.preventDefault를 사용하여 막을 수 있습니다.                                                           |
+| `onPointerDownOutside` | `function` | -       | content의 바깥 부분이 클릭되었을 때 실행되는 이벤트 핸들러이며, event.preventDefault를 사용하여 막을 수 있습니다.                                          |
+| `onInteractOutside`    | `function` | -       | content의 바깥 부분과 interaction(포인터 또는 포커스 이벤트)이 발생하였을 때 실행되는 이벤트 핸들러이며, event.preventDefault를 사용하여 막을 수 있습니다. |
+
+| Data Attribute | Values           |
+| :------------- | :--------------- |
+| `[data-state]` | `"open" "close"` |
+
+### Close
+
+Dialog를 닫는 버튼입니다.
+
+### Title
+
+Dialog가 열렸을 때 표시되는 accessible title 입니다. Dialog.Content의 `aria-labelledby`와 연결되어 있습니다.
+
+### Description
+
+Dialog가 열렸을 때 표시되는 accessible description 입니다. Dialog.Content의 `aria-describedby`와 연결되어 있습니다.
+
+<br />
+
+## Examples
+
+<br />
+
+### Controlled
+
+```tsx
+import * as React from 'react';
+import * as Dialog from '@over-ui/dialog';
+
+export const Controlled = () => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger>{open ? 'close' : 'open'}</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Make Reservation</Dialog.Title>
+          <Dialog.Description>Fill the form to make reservation.</Dialog.Description>
+          <Dialog.Close>close</Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+};
+```
+
+### Non-modal
+
+```tsx
+import * as React from 'react';
+import * as Dialog from '@over-ui/dialog';
+
+export const NonModal = () => {
+  return (
+    <>
+      <Dialog.Root modal={false}>
+        <Dialog.Trigger>open (non-modal)</Dialog.Trigger>
+        <Dialog.Portal>
+          <Dialog.Overlay />
+          <Dialog.Content onInteractOutside={(event: Event) => event.preventDefault()}>
+            <Dialog.Title>Make Reservation</Dialog.Title>
+            <Dialog.Description>Fill the form to make reservation.</Dialog.Description>
+            <Dialog.Close>close</Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      {Array.from({ length: 3 }, (_, i) => (
+        <div key={i} style={{ marginTop: 20 }}>
+          <textarea
+            style={{ width: 800, height: 400 }}
+            defaultValue="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat nobis at ipsa, nihil tempora debitis maxime dignissimos non amet, minima expedita alias et fugit voluptate laborum placeat odio dolore ab!"
+          />
+        </div>
+      ))}
+    </>
+  );
+};
+```
+
+### Custom portal container
+
+```tsx
+import * as React from 'react';
+import * as Dialog from '@over-ui/dialog';
+
+export const WithPortalContainer = () => {
+  const [container, setContainer] = React.useState<HTMLDivElement | null>(null);
+
+  return (
+    <>
+      <Dialog.Root>
+        <Dialog.Trigger>open</Dialog.Trigger>
+        <Dialog.Portal container={container}>
+          <Dialog.Overlay />
+          <Dialog.Content>
+            <Dialog.Title>Make Reservation</Dialog.Title>
+            <Dialog.Description>Fill the form to make reservation.</Dialog.Description>
+            <Dialog.Close>close</Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+      <div ref={setContainer} />
+    </>
+  );
+};
+```
+
+## Accessibility
+
+[notion](https://lv0314.notion.site/over-ui-Dialog-accessibility-91365a52f060416ebea9fb63288812cd)
