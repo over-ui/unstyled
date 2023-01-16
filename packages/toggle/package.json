@@ -15,11 +15,8 @@
     "README.md"
   ],
   "dependencies": {
-    "@over-ui/core": "*",
-    "@over-ui/use-controlled": "*"
-  },
-  "devDependencies": {
-    "styled-components": "^5.3.6"
+    "@over-ui/core": "workspace:*",
+    "@over-ui/use-controlled": "workspace:*"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17.0 || ^18.0",
