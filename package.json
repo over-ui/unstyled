@@ -5,6 +5,9 @@
     "packages/*",
     "playground"
   ],
+  "dependencies": {
+    "styled-components": "^5.3.6"
+  },
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@babel/plugin-transform-runtime": "^7.19.6",
@@ -56,7 +59,6 @@
     "rollup": "^3.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "storybook-addon-styled-component-theme": "^2.0.0",
-    "styled-components": "^5.3.6",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.0",
