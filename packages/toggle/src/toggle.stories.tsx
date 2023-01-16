@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ComponentStory, ComponentMeta, Meta, Story } from '@storybook/react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Toggle } from './toggle';
 import mdx from './toggle.mdx';
 
