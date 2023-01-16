@@ -18,6 +18,9 @@
     "@over-ui/core": "*",
     "@over-ui/use-controlled": "*"
   },
+  "devDependencies": {
+    "styled-components": "^5.3.6"
+  },
   "peerDependencies": {
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0"
