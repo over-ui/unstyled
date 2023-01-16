@@ -24,10 +24,7 @@ jobs:
         run: yarn build-storybook
       - name: 'Deploy'
         id: chromatic
-        uses: chromaui/action@v1
-        with:
-          # 👇 Chromatic projectToken, refer to the manage page to obtain it.
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        uses: yarn chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
       - name: Create or update comment
         if: github.event_name != 'push'
         uses: peter-evans/create-or-update-comment@v1
