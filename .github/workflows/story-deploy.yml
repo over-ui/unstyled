@@ -20,11 +20,11 @@ jobs:
           node-version: '14'
       - name: 'Install Dependencies'
         run: yarn install
-      - name: 'storybook build'
-        run: yarn build-storybook
       - name: 'Deploy'
         id: chromatic
-        run: yarn chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
       - name: Create or update comment
         if: github.event_name != 'push'
         uses: peter-evans/create-or-update-comment@v1
