@@ -1,0 +1,75 @@
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
+import { StyledToggle, Main } from './toggle.stories.tsx';
+import { Toggle } from './toggle';
+
+# Toggle
+
+토글은, 클릭을 통해 자체의 `on-off` 상태를 바꿀 수 있는 컴포넌트입니다.
+
+<Canvas>
+  <Story id="over-toggle--main" />
+</Canvas>
+
+## as
+
+`as` 프로퍼티를 통해, 다른 태그로 렌더링할 수 있습니다.
+`as` 프로퍼티를 사용할 때에는, 해당 타입에 맞는 `ref`를 `forwardRef`로 선언해야 합니다.
+
+## controlled
+
+외부에서 상태를 선언했다면, 다음과 같이 사용할 수 있습니다.  
+`controlled`로 사용한다면, `pressed, onPressedChange`를 이용해야 합니다.
+
+<Canvas>
+  <Story id="over-toggle--controlled" />
+  <Story id="over-toggle--uncontrolled" />
+</Canvas>
+
+## uncontrolled
+
+내부의 상태만을 이용할 수 있습니다. `form, navigate` 등에 활용할 수 있습니다.
+
+## with styled-components
+
+<Canvas>
+  <Story id="over-toggle--styled" />
+</Canvas>
+
+```tsx
+const StyledToggle = styled(Toggle)`
+  padding: 10px 15px;
+
+  &[data-pressed='on'] {
+    background-color: rebeccapurple;
+  }
+  &[data-disabled='true'] {
+    background-color: red;
+  }
+  &:focus {
+    border: 2px solid blue;
+  }
+  font-size: 24px;
+`;
+```
+
+## with RenderProps
+
+`pressed : boolean`, `disabled : boolean` 두가지의 `render Props`를 사용할 수 있습니다.
+
+```
+
+```
+
+## API
+
+<ArgsTable of={Toggle} />
+
+## RenderProps
+
+| Name               | Type                                                                                                        | Description                                                                                                                                                                                                                                                         |
+| :----------------- | :---------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `children?`        | `React.ReactNode` \| (`props`: [`ToggleRenderProps`](toggle_src.md#togglerenderprops)) => `React.ReactNode` | -                                                                                                                                                                                                                                                                   |
+| `defaultPressed?`  | `boolean` dsfdsfadsf                                                                                        | `Toggle`의 `pressed` 상태의 초기값을 지정합니다. `pressed`와 함께 사용할 수 없습니다. `onPressedChange`와 함께 사용할 수 있습니다. **`Default Value`** false                                                                                                        |
+| `disabled?`        | `boolean`                                                                                                   | 토글을 disabled하는 값입니다. **`Default Value`** false                                                                                                                                                                                                             |
+| `onPressedChange?` | (`pressed`: `boolean`) => `void`                                                                            | `Toggle`의 상태가 바뀔때 실행되는 함수입니다.                                                                                                                                                                                                                       |
+| `pressed?`         | `boolean`                                                                                                   | 외부에서 선언한 상태를 이용할때 사용합니다. `defaultPressed`와 함께 사용할 수 없습니다. `onPressedChange` 를 함께 사용해야합니다. **`Example`** `tsx const [state, setState] = React.useState(false); return <Toggle pressed={state} onPressedChange={setState}/> ` |
