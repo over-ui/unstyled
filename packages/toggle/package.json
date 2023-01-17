@@ -1,7 +1,7 @@
 {
   "name": "@over-ui/toggle",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "license": "MIT",
   "contributors": [
     "otterp012 <otterp012@gmail.com>",
