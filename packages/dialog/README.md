@@ -1,10 +1,11 @@
 # `over-test`
 
-> TODO: description
+```
+npm install @over-ui/dialog
+or
+yarn add @over-ui/dialog
+```
 
 ## Usage
 
-```
-`package.json`에 `private` 옵션을 `false` 로 바꿔 주셔야 합니다.
-이 템플릿은, 배포용이 아닌 내부에서 사용하기 위에 적용된 파일입니다.
-```
+[usage](https://63bba467b98099ff5c8b92b6-iiswrrhehq.chromatic.com/?path=/docs/over-ui-dialog--main)
