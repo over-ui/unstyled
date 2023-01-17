@@ -1,4 +1,4 @@
-# `over-ui/createRovingContext`
+# `over-ui/create-roving-context`
 
 `createRovingContext` 패키지는, `over-ui` 패키기 내부에서 사용하는 훅입니다.
 `radio, toggle` 컴포넌트를 작성할 때의 접근성 규칙을 준수하기 위해 `roving TabIndex`를 구현합니다.
