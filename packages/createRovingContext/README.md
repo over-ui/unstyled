@@ -6,6 +6,8 @@
 ## Usage
 
 ```
+// 사용 전에, rovingProvider로 사용해야 하는 컴포넌트를 묶어주세요.
+const {rovingProvider, useRoving} = createRovingContext();
 // group 요소
 const Container: Poly.Component<typeof DEFAULT_ROOT, ContainerProps> =
   React.forwardRef(
