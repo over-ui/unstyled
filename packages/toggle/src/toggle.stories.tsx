@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { ComponentStory, ComponentMeta, Meta, Story } from '@storybook/react';
+import React, { useState } from 'react';
+import { Meta, Story } from '@storybook/react';
 import styled from '@emotion/styled';
 import { Toggle } from './toggle';
 import mdx from './toggle.mdx';
@@ -60,7 +60,7 @@ export const Controlled = () => {
   );
 };
 
-const useDarkMode = (pressed) => {
+const useDarkMode = (pressed: any) => {
   // mock
   const [state, setState] = useState(pressed);
   return [state, setState];
