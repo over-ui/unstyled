@@ -53,7 +53,7 @@ Dialog의 모든 부분을 포함합니다.
 | `open`         | `boolean`  | -       | dialog의 controlled open state입니다. 사용자가 지정한 상태를 전달할 수 있고, `onOpenChange`와 같이 사용되어야 합니다.           |
 | `onOpenChange` | `function` | -       | dialog의 open 상태가 바뀌었을 때 실행되는 이벤트 핸들러입니다.                                                                  |
 | `modal`        | `boolean`  | `true`  | dialog의 모달 여부입니다. true일 경우 일반적인 모달 역할을 하며, false일 경우 사용자의 행동을 방해하지 않는 non-modal이 됩니다. |
-| `id`           | `boolean`  | -       |
+| `id`           | `string`   | -       | dialog 컴포넌트의 유니크한 id입니다. 값을 넣지 않은 경우 임의로 생성된 id가 부여됩니다.                                         |
 
 ### Trigger
 
@@ -200,4 +200,38 @@ export const WithPortalContainer = () => {
 
 ## Accessibility
 
-[notion](https://lv0314.notion.site/over-ui-Dialog-accessibility-91365a52f060416ebea9fb63288812cd)
+### ARIA
+
+### Trigger
+
+| Type                                                                                                      | Description                                                                                                                                                     |
+| :-------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [aria-haspopup](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-haspopup) | 트리거 될 수 있는 interactive popup element의 가용성과 유형을 나타냅니다. `“dialog”`를 값으로 갖습니다.                                                         |
+| [aria-expanded](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-expanded) | 컨트롤이 확정되거나 축소되는지 여부, 하위 엘리먼트가 표시되거나 숨겨지는지 여부를 나타냅니다. dialog가 닫혀있을 땐 `false`, 열렸을 땐 `true`를 값으로 갖습니다. |
+| [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls) | 현재 엘리먼트가 제어하는 대상을 나타냅니다. `Content 컴포넌트의 id`를 값으로 갖습니다.                                                                          |
+
+### Content
+
+| Type                                                                                                            | Description                                                                                  |
+| :-------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [aria-labelledby](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby)   | 해당 엘리먼트를 라벨링하는 엘리먼트를 나타냅니다. Title 컴포넌트의 id를 값으로 갖습니다.     |
+| [aria-describedby](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby) | 해당 엘리먼트를 설명하는 엘리먼트를 나타냅니다. Description 컴포넌트의 id를 값으로 갖습니다. |
+| [aria-modal](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-modal)             | 엘리먼트가 display될 때 모달인지 여부를 나타냅니다. true를 값으로 갖습니다.                  |
+
+### 공통
+
+| Type                                                                                                  | Description                                                                                                                                                                 |
+| :---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [aria-hidden](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden) | 스크린 리더와 같은 보조 기술을 사용하는 사용자를 대상으로 콘텐츠의 탐색을 제한합니다. dialog가 열린다면 Content 컴포넌트를 제외한 요소들의 aria-hidden이 true로 지정됩니다. |
+
+### Keyboard Interaction
+
+[WAI-ARIA](https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/)의 Dialog(Modal) Design Pattern을 참고하였습니다.
+
+| Key           | Description                                          |
+| :------------ | :--------------------------------------------------- |
+| `Space`       | dialog를 열고 닫습니다.                              |
+| `Enter`       | dialog를 열고 닫습니다.                              |
+| `Tab`         | 포커스를 포커스 가능한 다음 엘리먼트로 이동시킵니다. |
+| `Shift + Tab` | 포커스를 포커스 가능한 이전 엘리먼트로 이동시킵니다. |
+| `Esc`         | dialog를 닫습니다.                                   |
