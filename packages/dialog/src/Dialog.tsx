@@ -309,7 +309,7 @@ const DialogContentNonModal: Poly.Component<typeof DIALOG_CONTENT_TAG, DialogCon
       const { as, ...dialogContentNonModalProps } = props;
       const context = useSafeContext(DialogContext, 'Dialog.ContentNonModal');
 
-      const handleInteractOutside = (event: FocusEvent | FocusEvent) => {
+      const handleInteractOutside = (event: FocusEvent | PointerEvent) => {
         props.onInteractOutside?.(event);
 
         const target = event.target as HTMLElement;
