@@ -4,69 +4,50 @@ import styled from '@emotion/styled';
 import { Toggle } from './toggle';
 import mdx from './toggle.mdx';
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'over/Toggle',
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+  title: 'over-ui/Toggle',
   parameters: {
     docs: {
       page: mdx,
     },
+    controls: { expanded: true },
   },
-
-  // https://github.com/storybookjs/storybook/issues/11983
-  argTypes: {
-    defaultPressed: {
-      table: {
-        defaultValue: { summary: false },
-      },
-    },
-    disabled: {
-      table: {
-        defaultValue: { summary: false },
-      },
-    },
-    as: {
-      description: 'html 태그',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'button' },
-      },
-    },
-  },
-
-  // mdx 추가하는 설정
 } as Meta;
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-// https://github.com/storybookjs/storybook/issues/11919
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-const StyledToggle = styled(Toggle)`
-  padding: 10px 15px;
-
-  &[data-pressed='on'] {
-    background-color: rebeccapurple;
-  }
-  &[data-disabled='true'] {
-    background-color: red;
-  }
-  &:focus {
-    border: 2px solid blue;
-  }
-  font-size: 12px;
-`;
-
-export const Main = () => {
-  return <Toggle>토글</Toggle>;
+export const Main: Story = (args) => {
+  return <Toggle {...args}>토글</Toggle>;
 };
 
-export const As = () => {
-  const divRef = React.useRef<HTMLDivElement>(null);
-  return (
-    <Toggle as="div" ref={divRef}>
-      div Toggle
-    </Toggle>
-  );
+Main.argTypes = {
+  disabled: {
+    description: '토글을 disabled하는 프로퍼티입니다',
+    table: {
+      type: { summary: 'boolean' },
+      defaultValue: { summary: false },
+    },
+    control: {
+      defaultValue: false,
+      type: 'boolean',
+    },
+  },
+  as: {
+    options: ['button', 'h1', 'div', 'span', 'li'],
+    description: '토글을 어떤 태그로 렌더링할 지 결정합니다.',
+    table: {
+      type: { summary: 'HTML Element' },
+      defaultValue: { summary: 'button' },
+    },
+    control: {
+      type: 'select',
+    },
+  },
+  onPressedChange: {
+    action: 'onPressedChange',
+    description: 'pressed 에 따른 콜백함수 입니다.',
+    table: {
+      type: { summary: '(pressed) => {}' },
+    },
+  },
 };
 
 export const Controlled = () => {
@@ -79,9 +60,6 @@ export const Controlled = () => {
   );
 };
 
-Controlled.argTypes = {
-  test: 1,
-};
 const useDarkMode = (pressed) => {
   // mock
   const [state, setState] = useState(pressed);
@@ -100,11 +78,39 @@ export const Uncontrolled = () => {
 
 export const Styled = () => {
   return (
-    <>
-      <StyledToggle>Styled Toggle</StyledToggle>
+    <div style={{ display: 'flex', gap: '10px' }}>
+      <StyledToggle>styled Toggle</StyledToggle>
       <StyledToggle disabled>disabled Toggle</StyledToggle>
-    </>
+      <StyledToggle defaultPressed={true}>pressed Toggle</StyledToggle>
+    </div>
   );
 };
 
-// https://github.com/storybookjs/storybook/discussions/16549
+const StyledToggle = styled(Toggle)`
+  padding: 10px 15px;
+
+  &[data-pressed='on'] {
+    background-color: green;
+  }
+  &[data-disabled='true'] {
+    background-color: red;
+  }
+  &:focus {
+    border: 2px solid blue;
+  }
+  border: none;
+  font-size: 12px;
+`;
+
+export const RenderProps = () => {
+  return (
+    <div style={{ display: 'flex', gap: '10px' }}>
+      <Toggle>
+        {({ pressed }) => (pressed ? <span>pressed</span> : <span>not Pressed</span>)}
+      </Toggle>
+      <Toggle disabled>
+        {({ disabled }) => (disabled ? <span>disabled</span> : <span>not disabled</span>)}
+      </Toggle>
+    </div>
+  );
+};
