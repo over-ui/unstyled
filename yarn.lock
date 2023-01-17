@@ -3118,6 +3118,16 @@
   dependencies:
     "@octokit/openapi-types" "^14.0.0"
 
+"@over-ui/core@workspace:*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@over-ui/core/-/core-1.1.0.tgz#92e7db2c76226eb3becf9310083963c6e798459a"
+  integrity sha512-yaDlPdxfqk+wHOBaz+LQ4M7zwJv4xTNjOkxm0KCbaJKntNxlvNYj09TsnuI2qYZHTvwJMp1eQGitwKSV85voig==
+
+"@over-ui/use-controlled@workspace:*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@over-ui/use-controlled/-/use-controlled-1.1.0.tgz#ba8531b9fe839803ae6cfe0b9dbce19f40b993e0"
+  integrity sha512-1NGYOpskQFPW6OQ7Nw6QcAitdzdmrfvELjP/WHc1b21AC6SWe5roqshs7ZKMd+THAaO9t0JC5OErVpxHP1ZxWQ==
+
 "@parcel/watcher@2.0.4":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@parcel/watcher/-/watcher-2.0.4.tgz#f300fef4cc38008ff4b8c29d92588eced3ce014b"
