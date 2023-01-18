@@ -63,7 +63,7 @@ export const Controlled = () => {
             <StyledAction onClick={() => setOnline(!online)}>
               {online ? 'yes, hide me' : "yes, i'm alive"}
             </StyledAction>
-            <StyledCancel> stay current</StyledCancel>
+            <StyledCancel>stay current</StyledCancel>
           </StyledContent>
         </AlertDialog.Portal>
       </AlertDialog.Root>
@@ -127,7 +127,18 @@ const StyledDescription = styled(AlertDialog.Description)({
   lineHeight: '1.5',
 });
 
-const StyledAction = styled(StyledTrigger)({
+const StyledAction = styled(AlertDialog.Action)({
+  all: 'unset',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '4px',
+  padding: '0 15px',
+  fontSize: '15px',
+  lineHeight: '1',
+  fontWeight: '500',
+  height: '35px',
+  boxShadow: '0 2px 10px gray',
   backgroundColor: 'rgb(221, 243, 228)',
   color: 'rgb(24, 121, 78)',
   border: 'none',
@@ -139,7 +150,18 @@ const StyledAction = styled(StyledTrigger)({
     backgroundColor: 'rgb(140, 210, 184)',
   },
 });
-const StyledCancel = styled(StyledTrigger)({
+const StyledCancel = styled(AlertDialog.Cancel)({
+  all: 'unset',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '4px',
+  padding: '0 15px',
+  fontSize: '15px',
+  lineHeight: '1',
+  fontWeight: '500',
+  height: '35px',
+  boxShadow: '0 2px 10px gray',
   backgroundColor: 'rgb(201, 124, 145)',
   color: 'rgb(161, 27, 50)',
   border: 'none',
