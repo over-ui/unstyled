@@ -16,7 +16,6 @@ const getComputedIndex = (curIndex: number, length: number) => {
 };
 const setNodeFocusable = (node: HTMLElement) => {
   node.tabIndex = TAB_INDEX.FOCUSABLE;
-  return node;
 };
 const setNodeUnFocusable = (node: HTMLElement) => {
   node.tabIndex = TAB_INDEX.UN_FOCUSABLE;
