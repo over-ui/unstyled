@@ -3231,6 +3231,11 @@
   resolved "https://registry.yarnpkg.com/@over-ui/core/-/core-1.1.0.tgz#92e7db2c76226eb3becf9310083963c6e798459a"
   integrity sha512-yaDlPdxfqk+wHOBaz+LQ4M7zwJv4xTNjOkxm0KCbaJKntNxlvNYj09TsnuI2qYZHTvwJMp1eQGitwKSV85voig==
 
+"@over-ui/create-roving-context@workspace:*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@over-ui/create-roving-context/-/create-roving-context-1.1.0.tgz#4095b791a8cce4be944c56a7499c99fbbb04bd8a"
+  integrity sha512-3hNBRoNNPSepP4OxPC2ZtIOJQTHJYY8EL9udQ2b9zK8VGk+vu+e4o4qyJmEkewb93tyDlHIX1lPytTx7podHqQ==
+
 "@over-ui/dismissable-layer@workspace:*":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@over-ui/dismissable-layer/-/dismissable-layer-1.1.0.tgz#2e5f8c4ff7ebd06966d154af3c5b42dabaa689a8"
@@ -3257,6 +3262,14 @@
   integrity sha512-u89tg0yl/T4uz6mLsFyvGSXLR+81eMK7MZNjzGszDXyzHvS1DDuEfhZIUZ0amCQp+6hUPJUs+UvMpYE2p3Uxag==
   dependencies:
     "@over-ui/core" "*"
+
+"@over-ui/toggle@workspace:*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@over-ui/toggle/-/toggle-1.1.0.tgz#f9f926ab200d52ad9ba5eba883b3a382305d1999"
+  integrity sha512-gfpUEKPk/lq3ldr1E3M8eE8bhsAY/Qppb8qt/jtYWnqc74ZxUHwuqi/ZqaDq/qApZmOm6mj2FNvOlJ1iq6mUeA==
+  dependencies:
+    "@over-ui/core" "1.1.0"
+    "@over-ui/use-controlled" "1.1.0"
 
 "@over-ui/use-controlled@workspace:*":
   version "1.1.0"
