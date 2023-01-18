@@ -129,9 +129,9 @@ export const Multiple = () => {
       disabled: true,
     },
   ];
-
+  const [state, setState] = useState([]);
   return (
-    <StyledRoot multiple>
+    <StyledRoot multiple value={state} onValueChange={setState}>
       {items.map((item) => (
         <StyledItem key={item.value} value={item.value} disabled={item.disabled}>
           {item.value}
@@ -182,5 +182,35 @@ export const FormControl = () => {
         submit
       </button>
     </form>
+  );
+};
+
+export const RovingTabIndex = () => {
+  const items = [
+    {
+      value: 'value1',
+      disabled: false,
+    },
+    {
+      value: 'value2',
+      disabled: false,
+    },
+    {
+      value: 'value3',
+      disabled: true,
+    },
+  ];
+  return (
+    <div style={{ display: 'flex', gap: '10px' }}>
+      <button>Previous Focused</button>
+      <StyledRoot>
+        {items.map((item) => (
+          <StyledItem key={item.value} value={item.value} disabled={item.disabled}>
+            {item.value}
+          </StyledItem>
+        ))}
+      </StyledRoot>
+      <button>next Focused</button>
+    </div>
   );
 };
