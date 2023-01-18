@@ -14,16 +14,16 @@ const { RovingProvider, useRoving } = createRovingContext();
 type PressedValue = string | string[];
 
 type ToggleContextType = {
-  pressedValue: PressedValue;
   multiple: boolean;
-  setValue: (value: PressedValue) => void;
-  deleteValue: (value: PressedValue) => void;
+  setValue(value: PressedValue): void;
+  deleteValue(value: PressedValue): void;
+  getIsPressed(value: string): boolean;
 };
 
 const ToggleContext = React.createContext<ToggleContextType | null>(null);
 ToggleContext.displayName = 'ToggleContext';
 
-type RootProps<T extends PressedValue> = {
+type RootProps<T> = {
   children: React.ReactNode;
   /**
    *  외부에서 선언한 상태를 이용할때 사용합니다.
@@ -43,7 +43,7 @@ type RootProps<T extends PressedValue> = {
   /**
    * 선택된 `value`가 달라질때, 실행되는 함수입니다.
    */
-  onValueChange?: (value: T) => void;
+  onValueChange?(value: T): void;
 
   /**
    * form control을 할때 사용하는 프로퍼티입니다.
@@ -60,7 +60,7 @@ type RootProps<T extends PressedValue> = {
 
 const DEFAULT_ROOT = 'div';
 
-type RootComponent = (<P extends React.ElementType, T extends PressedValue>(
+type RootComponent = (<P extends React.ElementType, T>(
   props: Poly.PropsWithRef<P, RootProps<T>>
 ) => React.ReactElement | null) & {
   displayName?: string;
@@ -70,7 +70,7 @@ type RootComponent = (<P extends React.ElementType, T extends PressedValue>(
 // Poly.Component를 사용하지 않고 새로운 타입을 만들었습니다.
 
 const Root: RootComponent = React.forwardRef(
-  <T extends PressedValue, C extends React.ElementType = typeof DEFAULT_ROOT>(
+  <T, C extends React.ElementType = typeof DEFAULT_ROOT>(
     props: Poly.Props<C, RootProps<T>>,
     ref: Poly.Ref<C>
   ) => {
@@ -84,10 +84,11 @@ const Root: RootComponent = React.forwardRef(
       ...restProps
     } = props;
 
-    if (multiple && !Array.isArray(pressedProp) && !Array.isArray(defaultValue)) {
-      throw new Error(
-        'type multiple should be used with Array type. check defaultValue or value type'
-      );
+    if (multiple && pressedProp && !Array.isArray(pressedProp)) {
+      throw new Error('type multiple should be used with Array type. check value property');
+    }
+    if (multiple && !Array.isArray(defaultValue)) {
+      throw new Error('type multiple should be used with Array type. check defaultValue property');
     }
 
     const [pressedValue, setPressedValue] = useControlled({
@@ -96,27 +97,31 @@ const Root: RootComponent = React.forwardRef(
       valueOnChange: onValueChange,
     });
 
-    const setValue = (value: PressedValue) => {
-      if (multiple) setPressedValue((prev) => [...prev, value] as T);
+    const setValue = (value: string | string[]) => {
+      if (multiple) setPressedValue((prev) => [...(prev as string[]), value] as T);
       else setPressedValue(value as T);
     };
 
-    const deleteValue = (value: PressedValue) => {
+    const deleteValue = (value: string | string[]) => {
       if (multiple) {
         setPressedValue((prev) => (prev as string[]).filter((item) => item !== value) as T);
       } else setPressedValue('' as T);
     };
 
+    const getIsPressed = (value: string) => {
+      if (multiple && Array.isArray(pressedValue)) return pressedValue.includes(value);
+      return pressedValue === value;
+    };
     // TO-DO
     // string | string[] 타입을 억지로, 두가지 타입을 모두 받을 수 있게 한 부분이
     // 가독성이 떨어진다고 느껴집니다.
     // 내부적으로는 string[] 타입만을 받는 방향으로 수정할 예정입니다.
 
     const value = {
-      pressedValue,
       multiple,
       setValue,
       deleteValue,
+      getIsPressed,
     };
 
     return (
@@ -128,7 +133,9 @@ const Root: RootComponent = React.forwardRef(
             </Container>
           </RovingProvider>
         </ToggleContext.Provider>
-        {name && <input type="hidden" name={name} defaultValue={pressedValue} />}
+        {name && (
+          <input type="hidden" name={name} defaultValue={pressedValue as string | string[]} />
+        )}
       </React.Fragment>
     );
   }
@@ -139,14 +146,20 @@ Root.displayName = 'ToggleGroup.Root';
 // ------------------------------------------------------------------------------
 // Container used in Root Component
 
-type ContainerProps = {
+type ContainerProps<T> = {
   children: React.ReactNode;
-  pressed: PressedValue;
+  pressed: T;
 };
 
-const Container: Poly.Component<typeof DEFAULT_ROOT, ContainerProps> = React.forwardRef(
-  <T extends React.ElementType = typeof DEFAULT_ROOT>(
-    props: Poly.Props<T, ContainerProps>,
+type ContainerComponent = (<P extends React.ElementType, T>(
+  props: Poly.PropsWithRef<P, ContainerProps<T>>
+) => React.ReactElement | null) & {
+  displayName?: string;
+};
+
+const Container: ContainerComponent = React.forwardRef(
+  <C extends string | string[], T extends React.ElementType = typeof DEFAULT_ROOT>(
+    props: Poly.Props<T, ContainerProps<C>>,
     ref: Poly.Ref<T>
   ) => {
     const {
@@ -205,7 +218,7 @@ const Item: Poly.Component<typeof DEFAULT_ITEM, ItemProps> = React.forwardRef(
     const { children, value, disabled = false, ...restProps } = props;
     const ItemRef = React.useRef<HTMLButtonElement>(null);
 
-    const { pressedValue, multiple, setValue, deleteValue } = useSafeContext(
+    const { multiple, setValue, deleteValue, getIsPressed } = useSafeContext(
       ToggleContext,
       ITEM_DISPLAY_NAME
     );
@@ -218,13 +231,12 @@ const Item: Poly.Component<typeof DEFAULT_ITEM, ItemProps> = React.forwardRef(
       disabled,
     });
 
-    const isPressed = multiple ? pressedValue.includes(value) : pressedValue === value;
-
+    const pressed = getIsPressed(value);
     const ariaAttrs = multiple
       ? {}
       : {
           role: 'radio',
-          'aria-checked': isPressed,
+          'aria-checked': pressed,
           'aria-pressed': undefined,
         };
 
@@ -232,7 +244,7 @@ const Item: Poly.Component<typeof DEFAULT_ITEM, ItemProps> = React.forwardRef(
       <Toggle
         type="button"
         tabIndex={-1}
-        pressed={isPressed}
+        pressed={pressed}
         onPressedChange={(pressed) => {
           pressed ? setValue(value) : deleteValue(value);
         }}
