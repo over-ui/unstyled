@@ -1,6 +1,7 @@
 {
   "name": "@over-ui/create-roving-context",
   "version": "1.0.0",
+  "private": false,
   "license": "MIT",
   "contributors": [
     "otterp012 <otterp012@gmail.com>",
