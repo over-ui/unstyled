@@ -6,8 +6,8 @@ const { getCurrentFocused, getComputedIndex, setNodeFocusable, setNodeUnFocusabl
   RovingUtils;
 
 const ROVING_KEYS = {
-  NEXT: ['ArrowRight', 'ArrowUp'],
-  PREV: ['ArrowLeft', 'ArrowDown'],
+  NEXT: ['ArrowRight', 'ArrowDown'],
+  PREV: ['ArrowLeft', 'ArrowUp'],
   HOME: ['Home'],
   END: ['End'],
   CLOSE: ['Tab'],
