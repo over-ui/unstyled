@@ -10,7 +10,7 @@ import { mergeRefs } from '@over-ui/merge-refs';
 type DialogProps = Poly.Props<typeof DialogPrimitive.Root>;
 type AlertDialogProps = DialogProps & {};
 
-const ALERT_DIALOG_DISPLAY_NAME = 'ALERT_DIALOG_ROOT';
+const ALERT_DIALOG_DISPLAY_NAME = 'AlertDialogRoot';
 
 const AlertDialog: React.FC<AlertDialogProps> = (props: AlertDialogProps) => {
   const { ...alertDialogProps } = props;
@@ -27,7 +27,7 @@ type DialogTriggerProps = Poly.Props<typeof DialogPrimitive.Trigger>;
 type AlertDialogTriggerProps = DialogTriggerProps & {};
 
 const ALERT_DIALOG_TRIGGER_TAG = 'button';
-const ALERT_DIALOG_TRIGGER_DISPLAY_NAME = 'ALERT_DIALOG_TRIGGER';
+const ALERT_DIALOG_TRIGGER_DISPLAY_NAME = 'AlertDialogTrigger';
 
 const AlertDialogTrigger: Poly.Component<typeof ALERT_DIALOG_TRIGGER_TAG, AlertDialogTriggerProps> =
   React.forwardRef(
@@ -49,7 +49,7 @@ AlertDialogTrigger.displayName = ALERT_DIALOG_TRIGGER_DISPLAY_NAME;
 type DialogPortalProps = Poly.Props<typeof DialogPrimitive.Portal>;
 type AlertDialogPortalProps = DialogPortalProps & {};
 
-const ALERT_DIALOG_PORTAL_DISPLAY_NAME = 'ALERT_DIALOG_PORTAL';
+const ALERT_DIALOG_PORTAL_DISPLAY_NAME = 'AlertDialogPortal';
 
 const AlertDialogPortal: React.FC<AlertDialogPortalProps> = (props: AlertDialogPortalProps) => {
   const { as, ...portalProps } = props;
@@ -66,7 +66,7 @@ type DialogOverlayProps = Poly.Props<typeof DialogPrimitive.Overlay>;
 type AlertDialogOverlayProps = DialogOverlayProps & {};
 
 const ALERT_DIALOG_OVERLAY_TAG = 'div';
-const ALERT_DIALOG_OVERLAY_DISPLAY_NAME = 'ALERT_DIALOG_OVERLAY';
+const ALERT_DIALOG_OVERLAY_DISPLAY_NAME = 'AlertDialogOverlay';
 
 const AlertDialogOverlay: Poly.Component<typeof ALERT_DIALOG_OVERLAY_TAG, AlertDialogOverlayProps> =
   React.forwardRef(
@@ -108,7 +108,7 @@ type AlertDialogContentProps = Omit<
 > & {};
 
 const ALERT_DIALOG_CONTENT_TAG = 'div';
-const ALERT_DIALOG_CONTENT_DISPLAY_NAME = 'ALERT_DIALOG_CONTENT';
+const ALERT_DIALOG_CONTENT_DISPLAY_NAME = 'AlertDialogContent';
 
 const AlertDialogContent: Poly.Component<typeof ALERT_DIALOG_CONTENT_TAG, AlertDialogContentProps> =
   React.forwardRef(
@@ -142,7 +142,7 @@ type DialogTitleProps = Poly.Props<typeof DialogPrimitive.Title>;
 type AlertDialogTitleProps = DialogTitleProps & {};
 
 const ALERT_DIALOG_TITLE_TAG = 'h2';
-const ALERT_DIALOG_TITLE_DISPLAY_NAME = 'ALERT_DIALOG_TITLE';
+const ALERT_DIALOG_TITLE_DISPLAY_NAME = 'AlertDialogTitle';
 
 const AlertDialogTitle: Poly.Component<typeof ALERT_DIALOG_TITLE_TAG, AlertDialogTitleProps> =
   React.forwardRef(
@@ -165,7 +165,7 @@ type DialogDescriptionProps = Poly.Props<typeof DialogPrimitive.Description>;
 type AlertDialogDescriptionProps = DialogDescriptionProps & {};
 
 const ALERT_DIALOG_DESCRIPTION_TAG = 'p';
-const ALERT_DIALOG_DESCRIPTION_DISPLAY_NAME = 'ALERT_DIALOG_DESCRIPTION';
+const ALERT_DIALOG_DESCRIPTION_DISPLAY_NAME = 'AlertDialogDescription';
 
 const AlertDialogDescription: Poly.Component<
   typeof ALERT_DIALOG_DESCRIPTION_TAG,
@@ -190,7 +190,7 @@ type DialogCloseProps = Poly.Props<typeof DialogPrimitive.Close>;
 type AlertDialogActionProps = DialogCloseProps & {};
 
 const ALERT_DIALOG_ACTION_TAG = 'button';
-const ALERT_DIALOG_ACTION_DISPLAY_NAME = 'ALERT_DIALOG_ACTION';
+const ALERT_DIALOG_ACTION_DISPLAY_NAME = 'AlertDialogAction';
 
 const AlertDialogAction: Poly.Component<typeof ALERT_DIALOG_ACTION_TAG, AlertDialogActionProps> =
   React.forwardRef(
@@ -212,7 +212,7 @@ AlertDialogAction.displayName = ALERT_DIALOG_ACTION_DISPLAY_NAME;
 type AlertDialogCancelProps = DialogCloseProps & {};
 
 const ALERT_DIALOG_CANCEL_TAG = 'button';
-const ALERT_DIALOG_CANCEL_DISPLAY_NAME = 'ALERT_DIALOG_CANCEL';
+const ALERT_DIALOG_CANCEL_DISPLAY_NAME = 'AlertDialogCancel';
 
 const AlertDialogCancel: Poly.Component<typeof ALERT_DIALOG_CANCEL_TAG, AlertDialogCancelProps> =
   React.forwardRef(
