@@ -3277,6 +3277,14 @@
   dependencies:
     "@over-ui/core" "*"
 
+"@over-ui/toggle@workspace:*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@over-ui/toggle/-/toggle-1.1.0.tgz#f9f926ab200d52ad9ba5eba883b3a382305d1999"
+  integrity sha512-gfpUEKPk/lq3ldr1E3M8eE8bhsAY/Qppb8qt/jtYWnqc74ZxUHwuqi/ZqaDq/qApZmOm6mj2FNvOlJ1iq6mUeA==
+  dependencies:
+    "@over-ui/core" "1.1.0"
+    "@over-ui/use-controlled" "1.1.0"
+
 "@over-ui/use-controlled@workspace:*":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@over-ui/use-controlled/-/use-controlled-1.1.0.tgz#ba8531b9fe839803ae6cfe0b9dbce19f40b993e0"
