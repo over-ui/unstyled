@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/over-ui/unstyled/compare/@over-ui/toggle-group@1.1.0...@over-ui/toggle-group@1.1.1) (2023-01-19)
+
+**Note:** Version bump only for package @over-ui/toggle-group
+
 ## 1.1.0 (2023-01-19)
 
 ### :rocket: New Features

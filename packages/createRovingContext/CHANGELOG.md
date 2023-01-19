@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/over-ui/unstyled/compare/@over-ui/create-roving-context@1.1.0...@over-ui/create-roving-context@1.1.1) (2023-01-19)
+
+### :bug: Bug Fix
+
+- roving keys ([2b8a044](https://github.com/over-ui/unstyled/commit/2b8a0448631a9a82d9e76491ca4153ddcc2e2b0f))
+
 ## 1.1.0 (2023-01-18)
 
 ### :rocket: New Features
