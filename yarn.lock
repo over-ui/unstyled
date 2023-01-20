@@ -3236,6 +3236,20 @@
   resolved "https://registry.yarnpkg.com/@over-ui/create-roving-context/-/create-roving-context-1.1.0.tgz#4095b791a8cce4be944c56a7499c99fbbb04bd8a"
   integrity sha512-3hNBRoNNPSepP4OxPC2ZtIOJQTHJYY8EL9udQ2b9zK8VGk+vu+e4o4qyJmEkewb93tyDlHIX1lPytTx7podHqQ==
 
+"@over-ui/dialog@workspace:*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@over-ui/dialog/-/dialog-1.1.0.tgz#3ee05afa52be992b73e1a75b707cb3a0aad06d15"
+  integrity sha512-hZietTIcSSHSfbkXS4mEhmAFGXrIOzhhTcH0w0kAw1QgQfjtO5l0D1Oc+90NjQ7vhyny0Z2+KLnF0kI5oWRYXQ==
+  dependencies:
+    "@over-ui/core" "1.1.0"
+    "@over-ui/dismissable-layer" "1.1.0"
+    "@over-ui/focus-trap-layer" "1.1.0"
+    "@over-ui/merge-refs" "1.1.0"
+    "@over-ui/portal" "1.1.0"
+    "@over-ui/use-controlled" "1.1.0"
+    aria-hidden "^1.2.2"
+    react-remove-scroll "^2.5.5"
+
 "@over-ui/dismissable-layer@workspace:*":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@over-ui/dismissable-layer/-/dismissable-layer-1.1.0.tgz#2e5f8c4ff7ebd06966d154af3c5b42dabaa689a8"
