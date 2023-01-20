@@ -1,0 +1,117 @@
+import { Story, Canvas } from "@storybook/addon-docs";
+
+# RadioGroup
+
+Radio button으로 알려진, 체크가 가능한 버튼들을 관리하는 컴포넌트입니다.
+한 번에 하나의 버튼만 체크될 수 있습니다.
+
+<Canvas>
+	<Story id="over-ui-radiogroup--main" />
+</Canvas>
+
+<br />
+<br />
+
+## Installation
+
+```tsx
+npm install @over-ui/radio-group
+or
+yarn add @over-ui/radio-group
+```
+
+## Anatomy
+
+```tsx
+import * as RadioGroup from "@over-ui/radio-group";
+
+export default () => (
+	<RadioGroup.Root>
+		<RadioGroup.Item>
+			<RadioGroup.Indicator />
+		</RadioGroup.Item>
+	</RadioGroup.Root>
+);
+```
+
+## API Reference
+
+### Root
+
+라디오 그룹의 모든 부분을 포함합니다.
+
+| Prop            | Type                         | Default      | Description                                                                                                      |
+| :-------------- | :--------------------------- | :----------- | :--------------------------------------------------------------------------------------------------------------- |
+| `defaultValue`  | `string`                     | -            | 처음 렌더링이 됐을 때 체크 될 radio item의 value입니다. radio item의 상태를 제어하지 않아도 될 때 사용됩니다.    |
+| `value`         | `string`                     | -            | radio item의 상태가 제어(controlled)되어야 할 때 사용되는 value입니다. `onValueChange`와 같이 사용되어야 합니다. |
+| `onValueChange` | `function`                   | -            | value가 바뀌었을 때 실행되는 이벤트 핸들러입니다.                                                                |
+| `disabled`      | `boolean`                    | -            | `true`일 때 유저가 radio item들과 상호작용 할 수 없습니다.                                                       |
+| `name`          | `string`                     | -            | 라디오 그룹의 이름입니다. name/value 쌍으로 form에 제출되어집니다.                                               |
+| `required`      | `boolean`                    | -            | `true`일 떄 유저는 form에 제출하기 전에 필수적으로 radio item을 체크해야 합니다.                                 |
+| `orientation`   | `"vertical" \| "horizontal"` | `"vertical"` | radio item이 렌더링 되는 방향입니다.                                                                             |
+| `loop`          | `boolean`                    | `true`       | `true`일 때 키보드 이동이 마지막 아이템에서 첫 아이템으로, 첫 아이템에서 마지막 아이템으로 loop됩니다.           |
+
+| Data Attribute    | Values                      |
+| :---------------- | :-------------------------- |
+| `[data-disabled]` | `disabled`일 때 추가됩니다. |
+
+### Item
+
+체크될 수 있는 라디오 그룹의 아이템입니다.
+
+| Prop       | Type      | Default | Description                                                                      |
+| :--------- | :-------- | :------ | :------------------------------------------------------------------------------- |
+| `value`    | `string`  | -       | `name`과 같이 제출될 때 데이터로서 주어지는 값입니다.                            |
+| `disabled` | `boolean` | -       | `true`일 때 유저가 해당 radio item과 상호작용 할 수 없습니다.                    |
+| `required` | `boolean` | -       | `true`일 떄 유저는 form에 제출하기 전에 필수적으로 radio item을 체크해야 합니다. |
+
+| Data Attribute    | Values                      |
+| :---------------- | :-------------------------- |
+| `[data-state]`    | "checked" \| "unchecked"    |
+| `[data-disabled]` | `disabled`일 때 추가됩니다. |
+
+### Indicator
+
+라디오 아이템이 체크 된 상태이면 렌더링됩니다. 직접적으로 스타일을 줄 수 있으며, wrapper로 사용하여 안에 아이콘 등을 넣어줄 수 있습니다.
+
+| Data Attribute    | Values                      |
+| :---------------- | :-------------------------- |
+| `[data-state]`    | "checked" \| "unchecked"    |
+| `[data-disabled]` | `disabled`일 때 추가됩니다. |
+
+## Usages
+
+### Controlled
+
+<Canvas>
+	<Story id="over-ui-radiogroup--controlled" />
+</Canvas>
+
+### Disalbed
+
+<Canvas>
+	<Story id="over-ui-radiogroup--disabled" />
+</Canvas>
+
+## Accessibility
+
+### ARIA
+
+| Type                                                                                                            | Description                                                              |
+| :-------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [aria-required](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-required)       | form이 제출되기 전에 user input이 해당 엘리먼트에 필수적임을 나타냅니다. |
+| [aria-orientation](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-orientation) | 엘리먼트의 방향(수평/수직)을 나타냅니다.                                 |
+| [aria-checked](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-checked)         | 라디오 버튼의 "checked" 여부를 나타냅니다.                               |
+
+### Keyboard Interaction
+
+[WAI-ARIA](https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/)의 Radio Group Design Pattern을 참고하였습니다.
+
+| Key          | Description                                                         |
+| :----------- | :------------------------------------------------------------------ |
+| `Tab`        | 포커스를 체크된 아이템 혹은 그룹의 첫 번째 아이템으로 이동시킵니다. |
+| `Space`      | 체크되지 않은 아이템이 포커스가 가 있을 때, 그 아이템을 체크합니다. |
+| `ArrowDown`  | 그룹의 다음 아이템으로 포커스를 옮기고 체크합니다.                  |
+| `ArrowRight` | 그룹의 다음 아이템으로 포커스를 옮기고 체크합니다.                  |
+| `ArrowUp`    | 그룹의 이전 아이템으로 포커스를 옮기고 체크합니다.                  |
+| `ArrowLeft`  | 그룹의 이전 아이템으로 포커스를 옮기고 체크합니다.                  |
