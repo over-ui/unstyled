@@ -1,0 +1,217 @@
+import { Canvas, Story } from '@storybook/addon-docs';
+
+# AlertDialog
+
+유저의 동작을 막으며 중요한 내용을 표시하고, 유저의 응답을 받는 모달 컴포넌트입니다.
+Dialog와 다른 점은 모달이 외부를 클릭하거나 포커스가 나간다고해서 닫히지 않고, Esc나 유저의 응답이 있어야 닫히게 됩니다.
+
+<Canvas>
+  <Story id="over-ui-alertdialog--main" />
+</Canvas>
+
+<br />
+<br />
+
+## Installation
+
+```tsx
+npm install @over-ui/alert-dialog
+or
+yarn add @over-ui/alert-dialog
+```
+
+## Anatomy
+
+```tsx
+import * as AlertDialog from '@over-ui/alert-dialog';
+
+export default () => (
+  <AlertDialog.Root>
+    <AlertDialog.Trigger />
+    <AlertDialog.Portal>
+      <AlertDialog.Overlay />
+      <AlertDialog.Content>
+        <AlertDialog.Title />
+        <AlertDialog.Description />
+        <AlertDialog.Close />
+      </AlertDialog.Content>
+    </AlertDialog.Portal>
+  </AlertDialog.Root>
+);
+```
+
+## API Reference
+
+<br />
+
+### Root
+
+AlertDialog의 모든 부분을 포함합니다.
+
+| Prop           | Type       | Default | Description                                                                                                           |
+| :------------- | :--------- | :------ | :-------------------------------------------------------------------------------------------------------------------- |
+| `defaultOpen`  | `boolean`  | -       | dialog가 렌더링 될 때 open 상태의 초기값을 지정합니다. `open` 상태를 control 하지 않아도 될 때 사용할 수 있습니다.    |
+| `open`         | `boolean`  | -       | dialog의 controlled open state입니다. 사용자가 지정한 상태를 전달할 수 있고, `onOpenChange`와 같이 사용되어야 합니다. |
+| `onOpenChange` | `function` | -       | dialog의 open 상태가 바뀌었을 때 실행되는 이벤트 핸들러입니다.                                                        |
+| `id`           | `string`   | -       | dialog 컴포넌트의 유니크한 id입니다. 값을 넣지 않은 경우 임의로 생성된 id가 부여됩니다.                               |
+
+### Trigger
+
+AlertDialog를 여는 버튼입니다.
+
+| Data Attribute | Values            |
+| :------------- | :---------------- |
+| `[data-state]` | "open" \| "close" |
+
+### Portal
+
+사용할 경우 포탈을 생성하여 Overlay와 Content 부분을 `body`에 렌더링합니다.
+
+| Prop        | Type          | Default       | Description                               |
+| :---------- | :------------ | :------------ | ----------------------------------------- |
+| `container` | `HTMLElement` | document.body | 포탈을 열 컨테이너 엘리먼트를 지정합니다. |
+
+### Overlay
+
+AlertDialog가 열려있을 때 화면의 비활성 부분을 덮는 층입니다.
+
+| Data Attribute | Values            |
+| :------------- | :---------------- |
+| `[data-state]` | "open" \| "close" |
+
+### Content
+
+AlertDialog가 열렸을 때 렌더링 될 content를 포함합니다.
+
+| Prop              | Type       | Default | Description                                                                                      |
+| :---------------- | :--------- | :------ | :----------------------------------------------------------------------------------------------- |
+| `onEscapeKeyDown` | `function` | -       | ESC 키가 눌렸을 때 실행되는 이벤트 핸들러이며, event.preventDefault를 사용하여 막을 수 있습니다. |
+
+| Data Attribute | Values            |
+| :------------- | :---------------- |
+| `[data-state]` | "open" \| "close" |
+
+### Cancel
+
+AlertDialog를 닫는 버튼입니다. `AlertDialog.Action` 버튼과 구분되어져야 합니다.
+
+### Action
+
+AlertDialog를 닫는 버튼입니다. `AlertDialog.Cancel` 버튼과 구분되어져야 합니다.
+
+### Title
+
+AlertDialog가 열렸을 때 표시되는 accessible title 입니다. AlertDialog.Content의 `aria-labelledby`와 연결되어 있습니다.
+AlertDialog.Content에 aria-label 또는 aria-labelledby 속성을 주고 이 컴포넌트를 사용하지 않을 수 있습니다.
+
+### Description
+
+AlertDialog가 열렸을 때 표시되는 accessible description 입니다. AlertDialog.Content의 `aria-describedby`와 연결되어 있습니다.
+AlertDialog.Content에 aria-describedby 속성을 주고 이 컴포넌트를 사용하지 않을 수 있습니다.
+
+<br />
+
+## Examples
+
+<br />
+
+### Controlled
+
+```tsx
+import * as React from 'react';
+import * as AlertDialog from '@over-ui/alert-dialog';
+
+export const Controlled = () => {
+  const [open, setOpen] = React.useState(false);
+  const [online, setOnline] = React.useState(false);
+
+  return (
+    <div>
+      <div>current : {online ? 'Online Mode' : 'Offline Mode'}</div>
+      <AlertDialog.Root open={open} onOpenChange={setOpen}>
+        <AlertDialog.Trigger>
+          {online ? 'Change to Offline Mode' : 'Change to Online Mode'}
+        </AlertDialog.Trigger>
+        <AlertDialog.Portal>
+          <AlertDialog.Overlay />
+          <AlertDialog.Content>
+            <AlertDialog.Title>
+              Are you sure change to {online ? 'OFFLINE MODE' : 'Change to ONLINE MODE'}?
+            </AlertDialog.Title>
+            <AlertDialog.Description>
+              With offline mode, your friends cannot find you in online list
+            </AlertDialog.Description>
+            <AlertDialog.Action onClick={() => setOnline(!online)}>
+              {online ? 'yes, hide me' : "yes, i'm alive"}
+            </AlertDialog.Action>
+            <AlertDialog.Cancel> stay current</AlertDialog.Cancel>
+          </AlertDialog.Content>
+        </AlertDialog.Portal>
+      </AlertDialog.Root>
+    </div>
+  );
+};
+```
+
+### Custom portal container
+
+```tsx
+import * as React from 'react';
+import * as AlertDialog from '@over-ui/alert-dialog';
+
+export const WithPortalContainer = () => {
+  const [container, setContainer] = React.useState(null);
+
+  return (
+    <>
+      <AlertDialog.Root>
+        <AlertDialog.Trigger>open</AlertDialog.Trigger>
+        <AlertDialog.Portal container={container}>
+          <AlertDialog.Overlay />
+          <AlertDialog.Content>...</AlertDialog.Content>
+        </AlertDialog.Portal>
+      </AlertDialog.Root>
+
+      <div ref={setContainer} />
+    </>
+  );
+};
+```
+
+## Accessibility
+
+### ARIA
+
+### Trigger
+
+| Type                                                                                                      | Description                                                                                                                                                     |
+| :-------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [aria-haspopup](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-haspopup) | 트리거 될 수 있는 interactive popup element의 가용성과 유형을 나타냅니다. `“dialog”`를 값으로 갖습니다.                                                         |
+| [aria-expanded](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-expanded) | 컨트롤이 확정되거나 축소되는지 여부, 하위 엘리먼트가 표시되거나 숨겨지는지 여부를 나타냅니다. dialog가 닫혀있을 땐 `false`, 열렸을 땐 `true`를 값으로 갖습니다. |
+| [aria-controls](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls) | 현재 엘리먼트가 제어하는 대상을 나타냅니다. `Content 컴포넌트의 id`를 값으로 갖습니다.                                                                          |
+
+### Content
+
+| Type                                                                                                            | Description                                                                                  |
+| :-------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [aria-labelledby](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby)   | 해당 엘리먼트를 라벨링하는 엘리먼트를 나타냅니다. Title 컴포넌트의 id를 값으로 갖습니다.     |
+| [aria-describedby](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby) | 해당 엘리먼트를 설명하는 엘리먼트를 나타냅니다. Description 컴포넌트의 id를 값으로 갖습니다. |
+| [aria-modal](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-modal)             | 엘리먼트가 display될 때 모달인지 여부를 나타냅니다. true를 값으로 갖습니다.                  |
+
+### 공통
+
+| Type                                                                                                  | Description                                                                                                                                                                 |
+| :---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [aria-hidden](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden) | 스크린 리더와 같은 보조 기술을 사용하는 사용자를 대상으로 콘텐츠의 탐색을 제한합니다. dialog가 열린다면 Content 컴포넌트를 제외한 요소들의 aria-hidden이 true로 지정됩니다. |
+
+### Keyboard Interaction
+
+[WAI-ARIA](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/)의 Alert and Message Dialogs Design Pattern을 참고하였습니다.
+
+| Key           | Description                                          |
+| :------------ | :--------------------------------------------------- |
+| `Space`       | dialog를 열고 닫습니다.                              |
+| `Enter`       | dialog를 열고 닫습니다.                              |
+| `Tab`         | 포커스를 포커스 가능한 다음 엘리먼트로 이동시킵니다. |
+| `Shift + Tab` | 포커스를 포커스 가능한 이전 엘리먼트로 이동시킵니다. |
+| `Esc`         | dialog를 닫습니다.                                   |
