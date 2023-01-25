@@ -3290,6 +3290,16 @@
   resolved "https://registry.yarnpkg.com/@over-ui/use-controlled/-/use-controlled-1.1.0.tgz#ba8531b9fe839803ae6cfe0b9dbce19f40b993e0"
   integrity sha512-1NGYOpskQFPW6OQ7Nw6QcAitdzdmrfvELjP/WHc1b21AC6SWe5roqshs7ZKMd+THAaO9t0JC5OErVpxHP1ZxWQ==
 
+"@over-ui/use-id@workspace:*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@over-ui/use-id/-/use-id-1.1.0.tgz#8878fa7cdaf4082d30ee624b024494007719cb45"
+  integrity sha512-SKEZo9V81dHnBbuFCopGHMgSE1JisJWC4iRd3MEdSy6+V1hwjInQvEFLUWBFSdA20/mdfIJXsO3wNvO4qy63/w==
+
+"@over-ui/use-outside-click@workspace:*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@over-ui/use-outside-click/-/use-outside-click-1.1.0.tgz#f0cd20ed0f14c565c190b829c5ef2c6e04a4458d"
+  integrity sha512-dDAg/I67z3WqiX2mxPDsuu3LqIiv4AOi/bcibcFm+GFuLbUN8esW+k9sI4vLN55fb7xeUVmy+7iphPSrmSVsRA==
+
 "@parcel/watcher@2.0.4":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@parcel/watcher/-/watcher-2.0.4.tgz#f300fef4cc38008ff4b8c29d92588eced3ce014b"
