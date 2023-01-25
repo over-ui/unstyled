@@ -1,11 +1,7 @@
-import type { NextPage } from "next";
-import { Button } from "@over-ui/template";
+import type { NextPage } from 'next';
+
 const Home: NextPage = () => {
-  return (
-    <div>
-      <Button />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Home;
