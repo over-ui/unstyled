@@ -1,6 +1,6 @@
 {
   "name": "@over-ui/select",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": false,
   "license": "MIT",
   "contributors": [
@@ -16,8 +16,8 @@
   ],
   "dependencies": {
     "@over-ui/core": "workspace:*",
-    "@over-ui/use-controlled": "workspace:*",
     "@over-ui/merge-refs": "workspace:*",
+    "@over-ui/use-controlled": "workspace:*",
     "@over-ui/use-id": "workspace:*",
     "@over-ui/use-outside-click": "workspace:*"
   },
