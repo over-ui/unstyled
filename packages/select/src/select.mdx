@@ -1,0 +1,280 @@
+import { Canvas, Story } from '@storybook/addon-docs';
+
+# Select
+
+`Select`는, 여러개의 옵션들 중 한가지 또는 여러개를 선택할 수 있는 컴포넌트입니다.
+
+<Canvas>
+  <Story id="over-ui-select--controlled" />
+</Canvas>
+
+```tsx
+import * as Select from '@over-ui/select';
+
+const Select = () => {
+  const [selectedValue, setSelectedValue] = React.useState('value1');
+
+  return (
+    <Select.Root selected={selectedValue} onSelectChange={setSelectedValue}>
+      <Select.Label>select favorite fruit</Select.Label>
+      <Select.Trigger style={{ display: 'block' }}>{selectedValue}</Select.Trigger>
+      <Select.Options>
+        <Select.Option value="apple">apple</Select.Option>
+        <Select.Option value="orange">orange</Select.Option>
+        <Select.Option value="banana">banana</Select.Option>
+      </Select.Options>
+    </Select.Root>
+  );
+};
+```
+
+## install
+
+```
+yarn add @over-ui/select
+or
+npm install @over-ui/select
+```
+
+## usage
+
+### controlled
+
+외부에서 상태를 선언한 상태와 같이 사용할 수 있습니다.  
+`controlled`로 사용한다면, `selected, onSelectChange`를 이용해야 합니다.  
+이때 `selected`는 상태를, `onSelectChange`는 상태 변경 함수가 등록되어야 합니다.
+
+<Canvas>
+  <Story id="over-ui-select--controlled" />
+</Canvas>
+
+### uncontrolled
+
+내부의 상태만을 이용할 수 있습니다.  
+`defaultSelected`와 `onSelectChange`를 조합해 사용할 수 있습니다.
+
+<Canvas>
+  <Story id="over-ui-select--uncontrolled" />
+</Canvas>
+
+## with emotion
+
+`emotion`을 사용한다면 다음과 같이 스타일링할 수 있습니다.  
+`data-selected`, `data-disabled`등의 data 어트리뷰트를 이용해 스타일링을 간편히 할 수 있습니다.
+
+<Canvas>
+  <Story id="over-ui-select--styled" />
+</Canvas>
+
+```tsx
+const StyledRoot = styled(Select.Root)`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  align-items: center;
+`;
+
+const StyledTrigger = styled(Select.Trigger)`
+  width: 100px;
+  height: 30px;
+  margin-top: 10px;
+  background-color: #eee;
+  outline: none;
+  border: none;
+
+  &:focus {
+    background-color: skyblue;
+  }
+`;
+
+const StyledOptions = styled(Select.Options)`
+  width: 100px;
+  height: 300px;
+  padding: 0;
+`;
+
+const StyledOption = styled(Select.Option)`
+  list-style: none;
+  width: 100%;
+  padding: 5px 5px;
+  box-sizing: border-box;
+
+  &:focus {
+    color: rebeccapurple;
+  }
+
+  &[data-disabled='true'] {
+    color: red;
+  }
+  &[data-selected='true'] {
+    color: blue;
+  }
+`;
+```
+
+### with RenderProps
+
+`Select.Trigger` 컴포넌트에는 `selectedValue, open`으로,
+`Select.Option` 컴포넌트에서는 `select, active, disabled`의 `renderProps`를 사용할 수 있습니다.
+
+<Canvas>
+  <Story id="over-ui-select--render-props" />
+</Canvas>
+
+<br />
+
+### multiple
+
+`multiple`을 `true`로 설정하면, `Select`의 옵션 중 여러개를 동시에 선택할 수 있습니다.
+`controlled, uncontrolled` 모두 사용할 수 있습니다.
+
+<Canvas>
+  <Story id="over-ui-select--multiple" />
+</Canvas>
+<Canvas>
+  <Story id="over-ui-select--multiple-controlled" />
+</Canvas>
+
+### form control
+
+`name` 프로퍼티를 통해, `form control`을 할 수 있습니다.  
+이를 이용할때 `uncontrolled`를 유용하게 사용할 수 있습니다.
+
+<Canvas>
+  <Story id="over-ui-select--form-control" />
+</Canvas>
+
+## API
+
+### Root
+
+`Select` 전체를 의미합니다. `div`태그를 기본으로 이용합니다.
+
+| Name               | Type                                        | Default    | Description                                                                                                                                      |
+| :----------------- | :------------------------------------------ | :--------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `defaultSelected?` | `string` \| `string[]`                      | -          | 선택된 `value`의 초기값을 지정합니다. `selected`와 함께 사용할 수 없습니다. `onSelectChange`와 함께 사용할 수 있습니다.                          |
+| `onSelectChange?`  | (`value`: `string` \| `string[]`) => `void` | -          | 선택된 `value`가 달라질때, 실행되는 함수입니다.                                                                                                  |
+| `selected?`        | `string` \| `string[]`                      | -          | 외부에서 선언한 상태를 이용할때 사용합니다. `defaultSelected`와 함께 사용할 수 없습니다. `onSelectChange` 를 함께 사용해야합니다.                |
+| `defaultOpen?`     | `boolean`                                   | `false`    | `Select.Options`의 `open`의 초기 상태를 지정합니다.                                                                                              |
+| `orientation?`     | `vertical` \| `horizontal`                  | `vertical` | `Select`의 표시 방향의 접근성을 지정해 주는 프로퍼티입니다. `aria-orientation`에 적용되며 해당 값에 따라 `keyboard support`의 방향이 달라집니다. |
+| `name?`            | `string`                                    | -          | form control을 할때 사용하는 프로퍼티입니다. 여기서 설정한 이름이, form data의 name이 됩니다.                                                    |
+| `multiple?`        | `boolean`                                   | `false`    | 여러개의 `option`을 동시에 선택할 수 있도록 하는 프로퍼티입니다.                                                                                 |
+
+<br />
+
+### Label
+
+`Select`의 `Label`태그를 생성합니다. 사용자가 직접, `Label`을 작성할 수도 있습니다.
+
+| Name      | Type      | Default | Description                                         |
+| :-------- | :-------- | :------ | :-------------------------------------------------- |
+| `hidden?` | `boolean` | false   | 해당 요소를 `clip-patten`으로 보이지 않도록 합니다. |
+
+<br />
+
+### Trigger
+
+`Select`를 열리게 또는 닫히게 하거나, 선택된 `value`를 가지고 있는 컴포넌트입니다.
+
+| Name         | Type     | Default               | Description                                                                                                  |
+| :----------- | :------- | :-------------------- | :----------------------------------------------------------------------------------------------------------- |
+| `labelledby` | `string` | `Select.Label`의 `id` | 사용자가 직접 label Id를 지정하고 싶을때 사용합니다. 이 프로퍼티를 사용할 경우, `Select.Label`은 무시됩니다. |
+
+#### Trigger RenderProps
+
+| Name            | Type                   | Default | Description                                                                                        |
+| :-------------- | :--------------------- | :------ | :------------------------------------------------------------------------------------------------- |
+| `open`          | `boolean`              | -       | `Select.Options`가 열렸는지 닫혔는지를 나타냅니다.                                                 |
+| `selectedValue` | `string` \| `string[]` | -       | 현재 선택된 `value`의 값을 나타냅니다. `multiple` 프로퍼티가 `true`인 경우, 배열을 `return`합니다. |
+
+<br />
+
+### Options
+
+`Select`의 `Option`을 그룹하고 있는 컴포넌트입니다. 기본적으로 `ul`태그로 렌더링 됩니다.
+
+| Name         | Type     | Default               | Description                                                                                                  |
+| :----------- | :------- | :-------------------- | :----------------------------------------------------------------------------------------------------------- |
+| `labelledby` | `string` | `Select.Label`의 `id` | 사용자가 직접 label Id를 지정하고 싶을때 사용합니다. 이 프로퍼티를 사용할 경우, `Select.Label`은 무시됩니다. |
+
+<br />
+
+### Option
+
+`Select`의 개별적인 `Option` 컴ㅍ넌트입니다. 기본적으로 `li` 태그로 렌더링됩니다.
+
+| Name       | Type      | Default | Description                                                                                                                 |
+| :--------- | :-------- | :------ | :-------------------------------------------------------------------------------------------------------------------------- |
+| `value`    | `string`  | -       | `value` 프로퍼티는 해당 옵션을 나타냅니다. 각 옵션을 구분할 때 사용되므로, 반드시 필요하며 유니크한 값이 등록되어야 합니다. |
+| `disabled` | `boolean` | `false` | 해당 옵션이 선택 가능한지의 여부를 나타냅니다.                                                                              |
+
+#### Option RenderProps
+
+| Name       | Type      | Default | Description                                                         |
+| :--------- | :-------- | :------ | :------------------------------------------------------------------ |
+| `active`   | `boolean` | -       | 해당 옵션이 `focus`되었는지를 기준으로 `boolean`값을 반환합니다.    |
+| `disabled` | `boolean` | -       | 해당 옵션이 `disabled`되었는지를 기준으로 `boolean`값을 반환합니다. |
+| `selected` | `boolean` | -       | 해당 옵션이 `selected`되었는지를 기준으로 `boolean`값을 반환합니다. |
+
+#### Option Data-\*
+
+| Name            | Type      | Default | Description                                                         |
+| :-------------- | :-------- | :------ | :------------------------------------------------------------------ |
+| `data-active`   | `boolean` | -       | 해당 옵션이 `selected`되었는지를 기준으로 `boolean`값을 반환합니다. |
+| `data-disabled` | `boolean` | -       | 해당 옵션이 `disabled`되었는지를 기준으로 `boolean`값을 반환합니다. |
+| `data-selected` | `boolean` | -       | 해당 옵션이 `selected`되었는지를 기준으로 `boolean`값을 반환합니다. |
+
+<br />
+
+## Accessibility
+
+`Select` 컴포넌트의 접근성은 [Select-Only Combobox Example](https://www.w3.org/WAI/ARIA/apg/example-index/combobox/combobox-select-only.html)을
+따르고 있습니다.
+
+### Trigger
+
+| Name              | Type      | Default               | Description                                                                                                                       |
+| :---------------- | :-------- | :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| `aria-controls`   | `string`  | `Select.Options`의 id | 어떤 요소를 `control`하고 있는지 나타냅니다.                                                                                      |
+| `aria-expanded`   | `boolean` | `false`               | 확장이 되었는지 여부를 나타냅니다. `Options`가 열렸을 경우 `true`, 반대의 경우 `false`가 됩니다.                                  |
+| `aria-labelledby` | `string`  | `Select.Label`의 id   | `Select.Label`이 존재한다면 해당 컴포넌트의 `id`를 값으로 가집니다. 다만, 사용자의 `id`가 등록될 경우 사용자의 `id`가 우선됩니다. |
+| `aria-haspopup`   | -         | `listbox`             | `popup`으로 어떤 요소를 가지고 있는지 나타냅니다.                                                                                 |
+
+### Options
+
+| Name                   | Type      | Default             | Description                                                                                                                                                                   |
+| :--------------------- | :-------- | :------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `role`                 | -         | `listbox`           | -                                                                                                                                                                             |
+| `aria-multiselectable` | `boolean` | `false`             | 여러 요소를 동시에 선택 가능한지를 나타냅니다. `Root`의 `multiple` 프로퍼티 값을 반영합니다.                                                                                  |
+| `aria-labelledby`      | `string`  | `Select.Label`의 id | `Select.Label`이 존재한다면 해당 컴포넌트의 `id`를 값으로 가집니다. 다만, 사용자의 `id`가 등록될 경우 사용자의 `id`가 우선됩니다.                                             |
+| `aria-orientation`     | -         | `vertical`          | 수직, 수평의 방향이 반영됩니다. 이 요소에 따라 `keyboard support`의 방향이 바뀝니다. `vertical`일 경우 위-아래 키를 반영하고, `horizontal`일 경우 왼쪽-오른쪽키를 반영합니다. |
+
+### Option
+
+| Name            | Type      | Default  | Description                                  |
+| :-------------- | :-------- | :------- | :------------------------------------------- |
+| `role`          | -         | `option` | -                                            |
+| `aria-selected` | `boolean` | `false`  | 해당 요소가 선택되었는지 여부를 나타냅니다.  |
+| `aria-disabled` | `boolean` | `false`  | 해당 요소가 선택 가능한지 여부를 나타냅니다. |
+
+<br />
+
+### Keyboard Support
+
+#### Select.Trigger에 Focus
+
+| Name                     | Description                                     |
+| :----------------------- | ----------------------------------------------- |
+| `ArrowUp` \| `ArrowDown` | Options가 열려져 있지 않다면, Options를 엽니다. |
+| `Enter` \| `Space`       | Options의 열려진 상태를 토글합니다.             |
+
+#### Select.Option에 Focus
+
+| Name               | Description                                                                                    |
+| :----------------- | ---------------------------------------------------------------------------------------------- |
+| `ArrowUp`          | 다음 옵션을 `focus`합니다. 마지막 옵션이라면 이동하지 않습니다.                                |
+| `ArrowDown`        | 이전 옵션을 `focus`합니다. 첫번째 옵션이라면 이동하지 않습니다.                                |
+| `Home`             | 첫번째 옵션을 `focus`합니다.                                                                   |
+| `End`              | 마지막 옵션을 `focus`합니다.                                                                   |
+| `Enter` \| `Space` | 해당 `value`를 선택합니다. `multiple`이 아닐 경우 `Options`를 닫고, `Trigger`를 `focus`합니다. |
+| `Escape`           | `Options`를 닫고, `Trigger`를 `focus`합니다.                                                   |
