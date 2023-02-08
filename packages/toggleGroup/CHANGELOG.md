@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/over-ui/unstyled/compare/@over-ui/toggle-group@1.1.1...@over-ui/toggle-group@1.1.2) (2023-02-08)
+
+### :mega: Other
+
+- fix README.md ([bd83ea6](https://github.com/over-ui/unstyled/commit/bd83ea6dfc4d86bc81526afe94d39fdefe7832c7))
+
 ## [1.1.1](https://github.com/over-ui/unstyled/compare/@over-ui/toggle-group@1.1.0...@over-ui/toggle-group@1.1.1) (2023-01-19)
 
 **Note:** Version bump only for package @over-ui/toggle-group
