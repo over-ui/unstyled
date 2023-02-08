@@ -1,10 +1,10 @@
-# `over-test`
+# `over-ui/select`
 
-> TODO: description
+```
+yarn add @over-ui/select
+or
+npm install @over-ui/select
+```
 
 ## Usage
-
-```
-`package.json`에 `private` 옵션을 `false` 로 바꿔 주셔야 합니다.
-이 템플릿은, 배포용이 아닌 내부에서 사용하기 위에 적용된 파일입니다.
-```
+[스토리북](https://63bba467b98099ff5c8b92b6-qdciptjqgm.chromatic.com/?path=/docs/over-ui-select--controlled)을 통해 usage를 확인하실 수 있습니다.
