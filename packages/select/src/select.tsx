@@ -40,7 +40,7 @@ type ActionContextType = {
 const StateContext = React.createContext<StateContextType | null>(null);
 const ActionContext = React.createContext<ActionContextType | null>(null);
 
-type RootProps<T> = {
+export type RootProps<T> = {
   children?: React.ReactNode;
 
   /**
