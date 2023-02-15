@@ -45,6 +45,10 @@
       "env": {
         "jest/globals": true
       },
+      "rules": {
+        "testing-library/prefer-screen-queries": "warn",
+        "testing-library/no-render-in-setup": "warn"
+      },
       "plugins": ["jest", "jest-dom", "testing-library"],
       "extends": [
         "plugin:jest/recommended",
