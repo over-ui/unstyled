@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/over-ui/unstyled/compare/@over-ui/select@1.1.1...@over-ui/select@1.1.2) (2023-02-15)
+
+### :mega: Other
+
+- test 코드를 원활히 작성하기 위해 roop props export로 설정 ([4fe789c](https://github.com/over-ui/unstyled/commit/4fe789ca656e8347a7fb2552a468cf25db001142))
+
 ## [1.1.1](https://github.com/over-ui/unstyled/compare/@over-ui/select@1.1.0...@over-ui/select@1.1.1) (2023-02-08)
 
 ### :mega: Other
