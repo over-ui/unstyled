@@ -30,8 +30,8 @@ type ActionContextType = {
   dispatch: React.Dispatch<SelectAction>;
 };
 
-export const StateContext = React.createContext<StateContextType | null>(null);
-export const ActionContext = React.createContext<ActionContextType | null>(null);
+const StateContext = React.createContext<StateContextType | null>(null);
+const ActionContext = React.createContext<ActionContextType | null>(null);
 
 export const useActionContext = (displayName: string) => useSafeContext(ActionContext, displayName);
 export const useStateContext = (displayName: string) => useSafeContext(StateContext, displayName);
