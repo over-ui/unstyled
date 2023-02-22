@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/over-ui/unstyled/compare/@over-ui/toggle-group@1.1.2...@over-ui/toggle-group@1.1.3) (2023-02-22)
+
+### :bug: Bug Fix
+
+- toggleGroup 모듈 분리 ([aa28d55](https://github.com/over-ui/unstyled/commit/aa28d554771a6a55bce5348c6c04fa179db7bc43))
+
 ## [1.1.2](https://github.com/over-ui/unstyled/compare/@over-ui/toggle-group@1.1.1...@over-ui/toggle-group@1.1.2) (2023-02-08)
 
 ### :mega: Other
