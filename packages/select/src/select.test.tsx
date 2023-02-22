@@ -2,8 +2,8 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { RootProps } from './select';
-import * as Select from './select';
+import { RootProps } from './index';
+import * as Select from './index';
 
 const renderSelect = <T extends string | string[]>(props?: RootProps<T>) => {
   const onSelectChange = jest.fn();
