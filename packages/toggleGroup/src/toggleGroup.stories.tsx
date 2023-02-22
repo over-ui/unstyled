@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 import styled from '@emotion/styled';
-import * as ToggleGroup from './toggleGroup';
+import * as ToggleGroup from './index';
 import mdx from './toggleGroup.mdx';
 
 export default {
