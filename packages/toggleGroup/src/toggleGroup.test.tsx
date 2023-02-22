@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import 'jest-axe/extend-expect';
 import * as React from 'react';
-import * as ToggleGroup from './toggleGroup';
+import * as ToggleGroup from './index';
 
 type ToggleGroupMock = Omit<React.ComponentProps<typeof ToggleGroup.Root>, 'children'>;
 
