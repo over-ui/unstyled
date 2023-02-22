@@ -5,7 +5,7 @@ import { useId } from '@over-ui/use-id';
 import { useOutsideClick } from '@over-ui/use-outside-click';
 import * as React from 'react';
 
-import { SelectState, reducer, FocusMode, RegisterProps } from './reducer';
+import { SelectState, reducer, SelectAction } from './reducer';
 
 // ------------------------------------------------------------------------------
 // context
@@ -27,14 +27,8 @@ interface StateContextType extends SelectState {
 }
 
 type ActionContextType = {
-  dispatchFocus(mode: FocusMode): void;
-  onToggleOpen(): void;
-  openOptions(): void;
-  closeOptions(): void;
   setValue(value: string): void;
-  registerOption(payload: { key: string; props: RegisterProps }): void;
-  unRegisterOption(payload: string): void;
-  registerLabel(payload: string): void;
+  dispatch: React.Dispatch<SelectAction>;
 };
 
 const StateContext = React.createContext<StateContextType | null>(null);
@@ -154,7 +148,7 @@ const Root: RootComponent = React.forwardRef(
 
     // 바깥을 클릭했을때, select를 닫히게 하는 effect입니다.
     useOutsideClick([optionsRef.current as HTMLElement, triggerRef.current as HTMLElement], () =>
-      closeOptions()
+      dispatch({ type: 'CLOSE_OPTIONS' })
     );
 
     const stateValue = React.useMemo(() => {
@@ -169,87 +163,36 @@ const Root: RootComponent = React.forwardRef(
     //  `reducer`에서 모든 로직을 처리하기는 방향으로 작성했고, `selectedValue` 또한 내부적으로는 `string[]` 타입만을 사용하고 싶었습니다.
     //  이러한 상황에서 사용자의 onSelectChange를 원활하게 지원하기 위해 아래 함수가 필요했습니다.
 
-    const onChange = React.useCallback(
-      (value: string) => {
-        const isSelected = multiple
-          ? (selectedValue as string[]).includes(value)
-          : selectedValue === value;
+    const onChange = (value: string) => {
+      const isSelected = multiple
+        ? (selectedValue as string[]).includes(value)
+        : selectedValue === value;
 
-        if (multiple) {
-          isSelected
-            ? setSelectedValue((prev) => (prev as string[]).filter((item) => item !== value) as T)
-            : setSelectedValue((prev) => [...(prev as string[]), value] as T);
-        } else {
-          isSelected ? setSelectedValue('' as T) : setSelectedValue(value as T);
-        }
-      },
-      [multiple, selectedValue, setSelectedValue]
-    );
+      if (multiple) {
+        isSelected
+          ? setSelectedValue((prev) => (prev as string[]).filter((item) => item !== value) as T)
+          : setSelectedValue((prev) => [...(prev as string[]), value] as T);
+      } else {
+        isSelected ? setSelectedValue('' as T) : setSelectedValue(value as T);
+      }
+    };
 
-    const setValue = React.useCallback(
-      (value: string) => {
-        dispatch({ type: 'SELECT_VALUE', payload: value });
-        onChange(value);
-      },
-      [onChange]
-    );
-
-    const onToggleOpen = React.useCallback(() => {
-      dispatch({ type: 'TOGGLE_OPTIONS' });
-    }, []);
-
-    const openOptions = React.useCallback(() => {
-      dispatch({ type: 'OPEN_OPTIONS' });
-    }, []);
-
-    const closeOptions = React.useCallback(() => {
-      dispatch({ type: 'CLOSE_OPTIONS' });
-    }, []);
-
-    const dispatchFocus = React.useCallback((mode: FocusMode) => {
-      dispatch({ type: 'FOCUS', mode });
-    }, []);
-
-    const registerOption = React.useCallback((payload: { key: string; props: RegisterProps }) => {
-      dispatch({ type: 'REGISTER_OPTION', payload });
-    }, []);
-
-    const unRegisterOption = React.useCallback((payload: string) => {
-      dispatch({ type: 'UN_REGISTER_OPTION', payload: payload });
-    }, []);
-
-    const registerLabel = React.useCallback((payload: string) => {
-      dispatch({ type: 'REGISTER_LABEL', payload });
-    }, []);
-
-    const actions = React.useMemo(() => {
-      return {
-        dispatchFocus,
-        onToggleOpen,
-        openOptions,
-        closeOptions,
-        registerOption,
-        unRegisterOption,
-        registerLabel,
-        setValue,
-      };
-    }, [
-      dispatchFocus,
-      onToggleOpen,
-      openOptions,
-      closeOptions,
-      setValue,
-      registerOption,
-      unRegisterOption,
-      registerLabel,
-    ]);
+    const setValue = (value: string) => {
+      dispatch({ type: 'SELECT_VALUE', payload: value });
+      onChange(value);
+    };
 
     const Tag = as || DEFAULT_ROOT;
 
     return (
       <>
         <StateContext.Provider value={stateValue}>
-          <ActionContext.Provider value={actions}>
+          <ActionContext.Provider
+            value={{
+              setValue,
+              dispatch,
+            }}
+          >
             <Tag ref={ref} {...restProps}>
               {children}
             </Tag>
@@ -279,11 +222,11 @@ const LABEL_DISPLAY_NAME = 'Select.Label';
 const Label = (props: LabelProps) => {
   const { children, hidden = false } = props;
   const id = React.useId();
-  const { registerLabel } = useSafeContext(ActionContext, LABEL_DISPLAY_NAME);
+  const { dispatch } = useSafeContext(ActionContext, LABEL_DISPLAY_NAME);
 
   React.useEffect(() => {
-    registerLabel(id);
-  }, [id, registerLabel]);
+    dispatch({ type: 'REGISTER_LABEL', payload: id });
+  }, [id]);
 
   const style = hidden
     ? ({
@@ -350,13 +293,10 @@ const Trigger: Poly.Component<typeof DEFAULT_TRIGGER, TriggerProps> = React.forw
       StateContext,
       TRIGGER_DISPLAY_NAME
     );
-    const { onToggleOpen, openOptions, closeOptions } = useSafeContext(
-      ActionContext,
-      TRIGGER_DISPLAY_NAME
-    );
+    const { dispatch } = useSafeContext(ActionContext, TRIGGER_DISPLAY_NAME);
 
     const handleClick = () => {
-      onToggleOpen();
+      dispatch({ type: 'TOGGLE_OPTIONS' });
     };
 
     const handleKeyup = (e: React.KeyboardEvent) => {
@@ -369,12 +309,12 @@ const Trigger: Poly.Component<typeof DEFAULT_TRIGGER, TriggerProps> = React.forw
         }
 
         case OPEN.includes(e.key): {
-          openOptions();
+          dispatch({ type: 'OPEN_OPTIONS' });
           break;
         }
 
         case CLOSE.includes(e.key): {
-          closeOptions();
+          dispatch({ type: 'CLOSE_OPTIONS' });
           break;
         }
 
@@ -453,11 +393,11 @@ const Options: Poly.Component<typeof DEFAULT_OPTIONS, OptionsProps> = React.forw
       OPTIONS_DISPLAY_NAME
     );
     const Tag = as || DEFAULT_OPTIONS;
-    const { dispatchFocus } = useSafeContext(ActionContext, OPTIONS_DISPLAY_NAME);
+    const { dispatch } = useSafeContext(ActionContext, OPTIONS_DISPLAY_NAME);
 
     React.useEffect(() => {
-      dispatchFocus('INIT');
-    }, [isOpen, dispatchFocus]);
+      dispatch({ type: 'FOCUS', mode: 'INIT' });
+    }, [isOpen]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
       const { HOME, END, ARROW } = OPTIONS_KEYS;
@@ -465,22 +405,22 @@ const Options: Poly.Component<typeof DEFAULT_OPTIONS, OptionsProps> = React.forw
 
       switch (e.key) {
         case HOME: {
-          dispatchFocus('FIRST');
+          dispatch({ type: 'FOCUS', mode: 'FIRST' });
           break;
         }
 
         case END: {
-          dispatchFocus('LAST');
+          dispatch({ type: 'FOCUS', mode: 'LAST' });
           break;
         }
 
         case NEXT: {
-          dispatchFocus('NEXT');
+          dispatch({ type: 'FOCUS', mode: 'NEXT' });
           break;
         }
 
         case PREV: {
-          dispatchFocus('PREV');
+          dispatch({ type: 'FOCUS', mode: 'PREV' });
           break;
         }
 
@@ -562,29 +502,27 @@ const Option: Poly.Component<typeof DEFAULT_OPTION, OptionProps> = React.forward
       StateContext,
       OPTION_DISPLAY_NAME
     );
-    const { closeOptions, setValue, registerOption, unRegisterOption } = useSafeContext(
-      ActionContext,
-      OPTION_DISPLAY_NAME
-    );
+    const { setValue, dispatch } = useSafeContext(ActionContext, OPTION_DISPLAY_NAME);
     const id = useId();
 
     React.useEffect(() => {
       if (!optionRef.current) return;
-      registerOption({
-        key: value,
-        props: {
-          id: id,
-          dom: optionRef.current,
-          value,
-          disabled,
+      dispatch({
+        type: 'REGISTER_OPTION',
+        payload: {
+          key: value,
+          props: {
+            id: id,
+            dom: optionRef.current,
+            value,
+            disabled,
+          },
         },
       });
 
       return () => {
-        unRegisterOption(value);
+        dispatch({ type: 'UN_REGISTER_OPTION', payload: value });
       };
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const Tag = as || DEFAULT_OPTION;
@@ -594,7 +532,7 @@ const Option: Poly.Component<typeof DEFAULT_OPTION, OptionProps> = React.forward
     const handleClick = () => {
       if (disabled) return;
       setValue(value);
-      if (!data.multiple) closeOptions();
+      if (!data.multiple) dispatch({ type: 'CLOSE_OPTIONS' });
       // setValue에 합치는 방법도 있겠지만, 함수의 역할을 줄이고 싶어서 따로 진행
     };
 
@@ -624,7 +562,7 @@ const Option: Poly.Component<typeof DEFAULT_OPTION, OptionProps> = React.forward
 
         case CLOSE.includes(e.key): {
           e.stopPropagation();
-          closeOptions();
+          dispatch({ type: 'CLOSE_OPTIONS' });
           triggerRef.current?.focus();
 
           break;
